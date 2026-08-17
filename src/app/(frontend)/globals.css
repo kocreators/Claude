@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Design tokens (see tailwind.config.ts for the source values):
+  - ink (#14181F)     dark base — hero sections, footer
+  - canvas (#EEEAE2)  warm grey-canvas — light section base
+  - thread (#D9A61C)  gold "thread" accent — primary CTAs, underlines
+  - team-red (#C23B32) secondary accent — used sparingly (tags, badges)
+
+  Signature element: the "hang-tag" notch — a small triangular cutout on the
+  left edge of primary buttons and section eyebrows, referencing a garment
+  size tag. See .tag-notch below. Used once per view, never stacked.
+*/
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-canvas text-ink font-body antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display uppercase tracking-tight;
+  }
+  :focus-visible {
+    outline: 2px solid theme('colors.thread.DEFAULT');
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-widest2 text-thread-dark;
+  }
+
+  /* Signature "hang-tag" notch: a small angled cut on the leading edge,
+     evoking a garment tag. Applied to primary buttons only. */
+  .tag-notch {
+    position: relative;
+    clip-path: polygon(0% 50%, 10px 0%, 100% 0%, 100% 100%, 10px 100%);
+  }
+
+  .btn-primary {
+    @apply tag-notch inline-flex items-center gap-2 bg-thread text-ink font-mono text-sm uppercase tracking-widest2 px-6 py-3 pl-5 transition-colors hover:bg-thread-dark;
+  }
+
+  .btn-outline {
+    @apply tag-notch inline-flex items-center gap-2 border border-ink/30 text-ink font-mono text-sm uppercase tracking-widest2 px-6 py-3 pl-5 transition-colors hover:border-ink;
+  }
+
+  .btn-outline-light {
+    @apply tag-notch inline-flex items-center gap-2 border border-canvas/40 text-canvas font-mono text-sm uppercase tracking-widest2 px-6 py-3 pl-5 transition-colors hover:border-canvas;
+  }
+}
