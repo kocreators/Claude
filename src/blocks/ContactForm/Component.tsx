@@ -17,7 +17,7 @@ export function ContactFormBlockComponent({ block }: { block: any }) {
         {block.subhead && <p className="mb-10 text-ink/70">{block.subhead}</p>}
 
         {state.status === 'success' ? (
-          <p className="border-l-2 border-thread pl-4 text-ink/80">{state.message}</p>
+          <p className="border-l-2 border-brand pl-4 text-ink/80">{state.message}</p>
         ) : (
           <form action={formAction} className="grid gap-5">
             <div className="grid gap-5 md:grid-cols-2">
@@ -29,7 +29,7 @@ export function ContactFormBlockComponent({ block }: { block: any }) {
               <input name="organization" placeholder="Team / school / business" className="border border-ink/20 bg-canvas-light px-4 py-3 text-sm" />
             </div>
             <textarea name="message" rows={5} placeholder="Tell us about your project" className="border border-ink/20 bg-canvas-light px-4 py-3 text-sm" />
-            {state.status === 'error' && <p className="text-sm text-team-red">{state.message}</p>}
+            {state.status === 'error' && <p className="text-sm text-red-600">{state.message}</p>}
             <button type="submit" disabled={pending} className="btn-primary w-fit disabled:opacity-60">
               {pending ? 'Sending…' : 'Send it'}
             </button>

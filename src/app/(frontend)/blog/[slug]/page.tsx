@@ -17,9 +17,14 @@ export default async function BlogPostPage({ params }: Args) {
     <article className="py-20">
       <Container className="max-w-3xl">
         <h1 className="mb-6 text-4xl md:text-5xl">{post.title}</h1>
-        {post.coverImage?.url && (
+        {typeof post.coverImage === 'object' && post.coverImage?.url && (
           <div className="relative mb-10 aspect-video">
-            <Image src={post.coverImage.url} alt={post.coverImage.alt || post.title} fill className="object-cover" />
+            <Image
+              src={post.coverImage.url}
+              alt={post.coverImage.alt || post.title}
+              fill
+              className="object-cover"
+            />
           </div>
         )}
         {post.content && <RichText data={post.content} className="prose prose-headings:font-display prose-headings:uppercase max-w-none" />}

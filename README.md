@@ -20,36 +20,47 @@ point out to it (configured in **Site Settings** in the admin).
 
 ## Design system
 
-Colors, type, and the signature "hang-tag notch" button/eyebrow treatment are
-defined in `tailwind.config.ts` and `src/app/(frontend)/globals.css`:
+Colors and type are defined in `tailwind.config.ts` and
+`src/app/(frontend)/globals.css`:
 
-- `ink` (#14181F) — dark base for hero/footer sections
-- `canvas` (#EEEAE2) — warm grey-canvas base for light sections
-- `thread` (#D9A61C) — gold "thread" accent, primary CTA color
-- `team-red` (#C23B32) — secondary accent, used sparingly
-- Display face: **Anton** (condensed, varsity/jersey feel)
+- `ink` (#111111) — near-black, dark sections & primary text
+- `ink-soft` (#222222) — charcoal, secondary dark surfaces
+- `canvas` (#F4F4F1) — warm off-white, alternating light section base
+- `canvas-light` (#FFFFFF) — pure white, hero/card surfaces
+- `brand` (#007A63) — Kocreators Green, CTAs/links/hover/accents
+- `brand-dark` (#00614F) — hover/active state
+- Display face: **Anton** (oversized editorial headlines)
 - Body face: **Inter**
 - Utility/mono face: **IBM Plex Mono** (labels, eyebrows, buttons)
+
+Buttons are flat and sharp-edged (`btn-primary`, `btn-outline`,
+`btn-outline-light`, `btn-text` in `globals.css`) — no shadows, gradients,
+or rounded corners; photography and the green accent carry the design.
 
 ## Content model
 
 | Collection / Global | Purpose |
 |---|---|
-| `pages` | Every marketing page (Home, Services, Work, Process, About, Trusted Brands, Support, Contact) — built from a drag-and-drop block layout |
-| `services` | Custom Design, Screen Printing, Headwear, Cut & Sew, Accessories, Ecomm + Warehousing — each with its own detail page at `/services/[slug]` |
-| `posts` | Blog |
-| `testimonials` | Reusable quotes, pulled into pages via the Testimonials block |
+| `pages` | Every marketing page (Home, Services, Our Work, How It Works, Brand Stores, About, Support, Contact) — built from a drag-and-drop block layout |
+| `services` | Custom Apparel, Screen Printing, Embroidery, Promotional Products, Print & Signage, Custom Headwear, Company Stores, Fulfillment & Warehousing, Design Services — each with its own detail page at `/services/[slug]` |
+| `projects` | Portfolio / case studies — powers the Our Work grid and `/our-work/[slug]` case-study pages |
+| `posts` | Blog / Resources |
+| `testimonials` | Reusable quotes, pulled into pages via the Testimonials block or attached directly to a project |
 | `media` | Images/video, with responsive image sizes pre-configured |
 | `form-submissions` | Leads from the Contact/Quote form block (name, email, org, message) |
-| Global: `header` | Nav items (with optional dropdowns) + the top-right "Get a Quote" button |
+| Global: `header` | Nav items — including a mega-menu mode for Services (label + description per item) — and the "Start a Project" button |
 | Global: `footer` | Footer columns, tagline, social links |
 | Global: `site-settings` | Phone, hours, email, and the external shop/quote URLs |
 
-Page layouts are built from blocks defined in `src/blocks/`: Hero,
-ServicesGrid, ProcessSteps, Testimonials, StoryStatement, TrustedBrands,
-CTABanner, RichText, and ContactForm. Add a new block by creating a
-`config.ts` + `Component.tsx` pair and registering it in
+Page layouts are built from blocks in `src/blocks/`: Hero, TrustedBrands,
+PortfolioGrid, ServicesGrid, ProcessSteps, CompanyStores, PromoSpotlight,
+Testimonials, StoryStatement, CTABanner, RichText, and ContactForm. Add a new
+block by creating a `config.ts` + `Component.tsx` pair and registering it in
 `src/collections/Pages.ts` and `src/blocks/RenderBlocks.tsx`.
+
+The Kocreators logo lives at `public/logo.webp` and is rendered directly by
+`src/components/Logo.tsx` (not through Payload media) since it's a fixed
+brand asset, not editable content.
 
 ## Local setup
 

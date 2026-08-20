@@ -10,7 +10,7 @@ export function TrustedBrandsBlock({ block }: { block: any }) {
         <div className="flex flex-wrap items-center justify-center gap-x-14 gap-y-8 grayscale opacity-70">
           {logos.map((l: any, i: number) => (
             <div key={i} className="relative h-8 w-28">
-              {l.logo?.url && <Image src={l.logo.url} alt={l.name} fill className="object-contain" />}
+              {typeof l.logo === 'object' && l.logo?.url && <Image src={l.logo.url} alt={l.name} fill className="object-contain" />}
             </div>
           ))}
         </div>

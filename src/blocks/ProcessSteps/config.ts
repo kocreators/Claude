@@ -17,6 +17,6 @@ export const ProcessSteps: Block = {
         { name: 'image', type: 'upload', relationTo: 'media' },
       ],
     },
-    { name: 'cta', ...linkField({ label: 'Bottom button' }) },
+    { ...linkField({ name: 'cta',  label: 'Bottom button' }) },
   ],
 }

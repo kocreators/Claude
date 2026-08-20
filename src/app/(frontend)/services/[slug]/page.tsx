@@ -15,12 +15,12 @@ export default async function ServiceDetailPage({ params }: Args) {
 
   return (
     <article>
-      <section className="relative flex h-[60vh] items-end bg-ink text-canvas">
-        {service.heroImage?.url && (
+      <section className="relative flex h-[60vh] items-end bg-ink text-canvas-light">
+        {typeof service.heroImage === 'object' && service.heroImage?.url && (
           <Image src={service.heroImage.url} alt={service.heroImage.alt || service.title} fill className="object-cover opacity-50" />
         )}
         <Container className="relative pb-16">
-          <p className="eyebrow mb-3 text-thread">Service</p>
+          <p className="eyebrow mb-3 text-brand">Service</p>
           <h1 className="text-5xl md:text-6xl">{service.title}</h1>
         </Container>
       </section>
@@ -34,7 +34,7 @@ export default async function ServiceDetailPage({ params }: Args) {
           <div className="mt-14 grid grid-cols-2 gap-3 md:grid-cols-3">
             {service.gallery.map((item: any, i: number) => (
               <div key={i} className="relative aspect-square">
-                {item.image?.url && <Image src={item.image.url} alt={item.image.alt || ''} fill className="object-cover" />}
+                {typeof item.image === 'object' && item.image?.url && <Image src={item.image.url} alt={item.image.alt || ''} fill className="object-cover" />}
               </div>
             ))}
           </div>

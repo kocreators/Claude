@@ -2,8 +2,8 @@ import type { Field } from 'payload'
 
 // Reusable "link" field group used across blocks (buttons, nav items, CTAs).
 // Lets editors link internally to a Page/Service/Post, or paste an external URL.
-export const linkField = (overrides: { overrideAccess?: boolean; label?: string } = {}): Field => ({
-  name: 'link',
+export const linkField = (overrides: { name?: string; overrideAccess?: boolean; label?: string } = {}): Field => ({
+  name: overrides.name || 'link',
   type: 'group',
   label: overrides.label || 'Link',
   fields: [
@@ -20,12 +20,11 @@ export const linkField = (overrides: { overrideAccess?: boolean; label?: string 
     {
       name: 'label',
       type: 'text',
-      required: true,
     },
     {
       name: 'internal',
       type: 'relationship',
-      relationTo: ['pages', 'services', 'posts'],
+      relationTo: ['pages', 'services', 'posts', 'projects'],
       admin: { condition: (_, siblingData) => siblingData?.type === 'internal' },
     },
     {

@@ -12,6 +12,7 @@ const collectionPathMap: Record<string, string> = {
   pages: '',
   services: '/services',
   posts: '/blog',
+  projects: '/our-work',
 }
 
 // Turns a Payload "link" field group (see src/fields/link.ts) into a plain

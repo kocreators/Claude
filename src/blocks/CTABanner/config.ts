@@ -7,14 +7,14 @@ export const CTABanner: Block = {
   fields: [
     { name: 'heading', type: 'text', required: true },
     { name: 'subhead', type: 'text' },
-    { name: 'cta', ...linkField({ label: 'Button' }) },
+    { ...linkField({ name: 'cta',  label: 'Button' }) },
     {
       name: 'style',
       type: 'select',
       options: [
         { label: 'Ink (dark)', value: 'dark' },
         { label: 'Canvas (light)', value: 'light' },
-        { label: 'Thread (accent)', value: 'accent' },
+        { label: 'Kocreators Green (accent)', value: 'accent' },
       ],
       defaultValue: 'dark',
     },

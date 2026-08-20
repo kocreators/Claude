@@ -5,16 +5,17 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { buildConfig } from 'payload'
 
-import { Users } from '@/collections/Users'
-import { Media } from '@/collections/Media'
-import { Pages } from '@/collections/Pages'
-import { Services } from '@/collections/Services'
-import { Testimonials } from '@/collections/Testimonials'
-import { Posts } from '@/collections/Posts'
-import { FormSubmissions } from '@/collections/FormSubmissions'
-import { Header } from '@/globals/Header'
-import { Footer } from '@/globals/Footer'
-import { SiteSettings } from '@/globals/SiteSettings'
+import { Users } from './collections/Users'
+import { Media } from './collections/Media'
+import { Pages } from './collections/Pages'
+import { Services } from './collections/Services'
+import { Projects } from './collections/Projects'
+import { Testimonials } from './collections/Testimonials'
+import { Posts } from './collections/Posts'
+import { FormSubmissions } from './collections/FormSubmissions'
+import { Header } from './globals/Header'
+import { Footer } from './globals/Footer'
+import { SiteSettings } from './globals/SiteSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -27,7 +28,7 @@ export default buildConfig({
     },
   },
   editor: lexicalEditor({}),
-  collections: [Pages, Services, Posts, Testimonials, Media, FormSubmissions, Users],
+  collections: [Pages, Services, Projects, Posts, Testimonials, Media, FormSubmissions, Users],
   globals: [Header, Footer, SiteSettings],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

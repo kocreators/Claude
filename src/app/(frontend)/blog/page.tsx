@@ -15,11 +15,11 @@ export default async function BlogIndexPage() {
           {result.docs.map((post: any) => (
             <Link key={post.id} href={`/blog/${post.slug}`} className="group">
               <div className="relative mb-4 aspect-[4/3] overflow-hidden bg-ink/5">
-                {post.coverImage?.url && (
+                {typeof post.coverImage === 'object' && post.coverImage?.url && (
                   <Image src={post.coverImage.url} alt={post.coverImage.alt || post.title} fill className="object-cover transition-transform group-hover:scale-105" />
                 )}
               </div>
-              <h2 className="font-display text-xl uppercase group-hover:text-thread-dark">{post.title}</h2>
+              <h2 className="font-display text-xl uppercase group-hover:text-brand-dark">{post.title}</h2>
               {post.excerpt && <p className="mt-2 text-sm text-ink/60">{post.excerpt}</p>}
             </Link>
           ))}

@@ -10,6 +10,6 @@ export const StoryStatement: Block = {
     { name: 'body', type: 'textarea' },
     { name: 'image', type: 'upload', relationTo: 'media' },
     { name: 'video', type: 'upload', relationTo: 'media', admin: { description: 'Optional looping background video' } },
-    { name: 'cta', ...linkField({ label: 'Button' }) },
+    { ...linkField({ name: 'cta',  label: 'Button' }) },
   ],
 }

@@ -8,6 +8,9 @@ import { TrustedBrands } from '@/blocks/TrustedBrands/config'
 import { CTABanner } from '@/blocks/CTABanner/config'
 import { RichTextBlock } from '@/blocks/RichTextBlock/config'
 import { ContactFormBlock } from '@/blocks/ContactForm/config'
+import { PortfolioGrid } from '@/blocks/PortfolioGrid/config'
+import { CompanyStores } from '@/blocks/CompanyStores/config'
+import { PromoSpotlight } from '@/blocks/PromoSpotlight/config'
 
 // One flexible collection powers every marketing page (Home, Work, Process,
 // About, Trusted Brands, Support, Contact...) via a drag-and-drop block
@@ -42,11 +45,14 @@ export const Pages: CollectionConfig = {
       minRows: 1,
       blocks: [
         Hero,
+        TrustedBrands,
+        PortfolioGrid,
         ServicesGrid,
         ProcessSteps,
+        CompanyStores,
+        PromoSpotlight,
         TestimonialsBlock,
         StoryStatement,
-        TrustedBrands,
         CTABanner,
         RichTextBlock,
         ContactFormBlock,

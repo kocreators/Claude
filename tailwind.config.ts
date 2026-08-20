@@ -7,19 +7,16 @@ const config: Config = {
     extend: {
       colors: {
         ink: {
-          DEFAULT: '#14181F', // primary dark base (not pure black)
-          soft: '#1D2330',
+          DEFAULT: '#111111', // primary dark base — hero/footer/dark sections
+          soft: '#222222', // charcoal — secondary dark surfaces
         },
         canvas: {
-          DEFAULT: '#EEEAE2', // warm grey-canvas base, not the templated cream
-          light: '#F7F5F0',
+          DEFAULT: '#F4F4F1', // warm off-white — alternating light section base
+          light: '#FFFFFF',
         },
-        thread: {
-          DEFAULT: '#D9A61C', // gold thread — signature accent
-          dark: '#B8880F',
-        },
-        team: {
-          red: '#C23B32', // secondary accent, used sparingly (tags, CTAs)
+        brand: {
+          DEFAULT: '#007A63', // Kocreators Green — primary accent, CTAs, links
+          dark: '#00614F', // hover state
         },
       },
       fontFamily: {

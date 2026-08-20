@@ -15,27 +15,40 @@ export async function ServicesGridBlock({ block }: { block: any }) {
   }
 
   return (
-    <section className="bg-canvas-light py-24">
+    <section className="bg-canvas-light py-24 md:py-32">
       <Container>
-        <h2 className="mb-12 text-3xl md:text-4xl">{block.heading}</h2>
-        <div className="grid grid-cols-2 gap-px overflow-hidden bg-ink/10 md:grid-cols-3">
+        <h2 className="mb-14 max-w-3xl text-4xl leading-[0.95] md:text-6xl">{block.heading}</h2>
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
           {services.map((service) => (
             <Link
               key={service.id}
               href={`/services/${service.slug}`}
-              className="group relative flex aspect-square flex-col justify-end bg-canvas-light p-6 transition-colors hover:bg-ink"
+              className="group relative flex aspect-[3/4] flex-col justify-end overflow-hidden bg-ink"
             >
-              {service.heroImage?.url && (
+              {typeof service.heroImage === 'object' && service.heroImage?.url ? (
                 <Image
                   src={service.heroImage.url}
                   alt={service.heroImage.alt || service.title}
                   fill
-                  className="absolute inset-0 object-cover opacity-0 transition-opacity group-hover:opacity-40"
+                  sizes="(min-width: 768px) 33vw, 50vw"
+                  className="absolute inset-0 object-cover opacity-80 transition-transform duration-500 ease-out group-hover:scale-105 group-hover:opacity-90"
                 />
+              ) : (
+                <div className="absolute inset-0 bg-ink-soft" />
               )}
-              <span className="relative font-display text-lg uppercase tracking-tight group-hover:text-canvas">
-                {service.title}
-              </span>
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/20 to-transparent" />
+
+              <div className="relative p-5 md:p-6">
+                <span className="block font-display text-xl uppercase leading-tight tracking-tight text-canvas-light md:text-2xl">
+                  {service.title}
+                </span>
+                {service.summary && (
+                  <span className="mt-2 block max-w-[22ch] text-sm text-canvas-light/70">{service.summary}</span>
+                )}
+                <span className="mt-3 inline-block font-mono text-xs uppercase tracking-widest2 text-brand opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  Learn more →
+                </span>
+              </div>
             </Link>
           ))}
         </div>
