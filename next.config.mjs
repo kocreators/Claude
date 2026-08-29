@@ -8,15 +8,44 @@ const nextConfig = {
       bodySizeLimit: '20mb',
     },
   },
+
   images: {
     remotePatterns: [
       { protocol: 'http', hostname: 'localhost' },
       // Vercel Blob's public storage domain (see src/payload.config.ts)
       { protocol: 'https', hostname: '*.public.blob.vercel-storage.com' },
-      // Add your production custom domain here too, if media is ever
-      // served from it directly, e.g.:
-      // { protocol: 'https', hostname: 'kocreators.com' },
     ],
+  },
+
+  async rewrites() {
+    return [
+      {
+        source: '/arworkshop',
+        destination: 'https://zjbdxni3a9.onrocket.site/arworkshop',
+      },
+      {
+        source: '/arworkshop/:path*',
+        destination: 'https://zjbdxni3a9.onrocket.site/arworkshop/:path*',
+      },
+
+      {
+        source: '/streamlinebrands',
+        destination: 'https://zjbdxni3a9.onrocket.site/streamlinebrands',
+      },
+      {
+        source: '/streamlinebrands/:path*',
+        destination: 'https://zjbdxni3a9.onrocket.site/streamlinebrands/:path*',
+      },
+
+      {
+        source: '/stretchngrow',
+        destination: 'https://zjbdxni3a9.onrocket.site/stretchngrow',
+      },
+      {
+        source: '/stretchngrow/:path*',
+        destination: 'https://zjbdxni3a9.onrocket.site/stretchngrow/:path*',
+      },
+    ]
   },
 }
 
