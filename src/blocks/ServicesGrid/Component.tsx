@@ -43,9 +43,11 @@ export async function ServicesGridBlock({ block }: { block: any }) {
                   {service.title}
                 </span>
                 {service.summary && (
-                  <span className="mt-2 block max-w-[22ch] text-sm text-canvas-light/70">{service.summary}</span>
+                  <span className="mt-2 hidden max-w-[22ch] text-sm text-canvas-light/70 md:line-clamp-2 md:block">
+                    {service.summary}
+                  </span>
                 )}
-                <span className="eyebrow mt-3 inline-block opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <span className="eyebrow mt-3 hidden transition-opacity duration-300 md:inline-block md:opacity-0 md:group-hover:opacity-100">
                   Learn more →
                 </span>
               </div>
