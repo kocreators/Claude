@@ -43,7 +43,7 @@ const emptyFields = {
   message: '',
 }
 
-export function QuoteForm() {
+export function QuoteForm({ phone, email }: { phone?: string | null; email?: string | null }) {
   const boundAction = submitContactForm.bind(null, 'quote')
   const [state, formAction, pending] = useActionState(boundAction, initialState)
   const [fileNames, setFileNames] = useState<string[]>([])
@@ -55,7 +55,7 @@ export function QuoteForm() {
     setFields((prev) => ({ ...prev, [key]: e.target.value }))
 
   if (state.status === 'success') {
-    return <FormSuccess message={state.message} />
+    return <FormSuccess message={state.message} phone={phone} email={email} />
   }
 
   return (

@@ -26,10 +26,10 @@ export async function ContactFormBlockComponent({ block }: { block: any }) {
                 <h2 className="mb-8 text-2xl md:text-3xl">{block.heading}</h2>
               )}
               {formType === 'quote' ? (
-                <QuoteForm />
+                <QuoteForm phone={siteSettings?.phone} email={siteSettings?.email} />
               ) : (
                 <Suspense fallback={null}>
-                  <StoreSignupForm />
+                  <StoreSignupForm phone={siteSettings?.phone} email={siteSettings?.email} />
                 </Suspense>
               )}
             </div>
@@ -82,12 +82,14 @@ export async function ContactFormBlockComponent({ block }: { block: any }) {
     )
   }
 
+  const siteSettings = await getCachedPayload().then((payload) => payload.findGlobal({ slug: 'site-settings' }))
+
   return (
     <section className="bg-canvas-light py-24">
       <Container className="max-w-2xl">
         <h2 className="mb-4 text-3xl md:text-4xl">{block.heading}</h2>
         {block.subhead && <p className="mb-10 text-ink/70">{block.subhead}</p>}
-        <SimpleContactForm />
+        <SimpleContactForm phone={siteSettings?.phone} email={siteSettings?.email} />
       </Container>
     </section>
   )

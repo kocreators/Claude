@@ -159,7 +159,11 @@ export async function submitContactForm(
       }
     }
 
-    return { status: 'success', message: "Thanks — we'll be in touch within one business day." }
+    return {
+      status: 'success',
+      message:
+        "We've received your request and a member of our team will be in touch within one business day to discuss your project and next steps.",
+    }
   } catch (err) {
     console.error('Form submission failed:', err)
     return { status: 'error', message: 'Something went wrong. Please try again or call us directly.' }

@@ -2,7 +2,15 @@
 
 import { useEffect, useRef } from 'react'
 
-export function FormSuccess({ message }: { message?: string }) {
+export function FormSuccess({
+  message,
+  phone,
+  email,
+}: {
+  message?: string
+  phone?: string | null
+  email?: string | null
+}) {
   const ref = useRef<HTMLDivElement>(null)
 
   // The form it replaces can be 1000px+ tall — collapsing straight to a
@@ -20,8 +28,31 @@ export function FormSuccess({ message }: { message?: string }) {
           <path d="M20 6 9 17l-5-5" />
         </svg>
       </span>
-      <h3 className="mb-2 text-2xl">You're All Set</h3>
-      <p className="max-w-sm text-ink/70">{message}</p>
+      <h3 className="mb-3 text-2xl">Request Received</h3>
+      <p className="max-w-sm text-ink/70">Thanks for reaching out.</p>
+      <p className="mt-2 max-w-sm text-ink/70">{message}</p>
+
+      {(phone || email) && (
+        <div className="mt-8 w-full max-w-sm border-t border-ink/10 pt-6">
+          <p className="mb-1.5 text-sm font-bold text-ink">Need help sooner?</p>
+          <p className="text-sm text-ink/70">
+            {phone && (
+              <>
+                Call us at{' '}
+                <a href={`tel:${phone.replace(/[^\d+]/g, '')}`} className="font-medium text-brand">
+                  {phone}
+                </a>
+              </>
+            )}
+            {phone && email && ' or email '}
+            {email && (
+              <a href={`mailto:${email}`} className="font-medium text-brand">
+                {email}
+              </a>
+            )}
+          </p>
+        </div>
+      )}
     </div>
   )
 }

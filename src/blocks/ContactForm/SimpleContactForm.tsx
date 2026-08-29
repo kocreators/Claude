@@ -7,12 +7,12 @@ import { FormSuccess } from './FormSuccess'
 
 const initialState: ContactFormState = { status: 'idle' }
 
-export function SimpleContactForm() {
+export function SimpleContactForm({ phone, email }: { phone?: string | null; email?: string | null }) {
   const boundAction = submitContactForm.bind(null, 'contact')
   const [state, formAction, pending] = useActionState(boundAction, initialState)
 
   if (state.status === 'success') {
-    return <FormSuccess message={state.message} />
+    return <FormSuccess message={state.message} phone={phone} email={email} />
   }
 
   return (

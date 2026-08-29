@@ -24,7 +24,7 @@ function Field({ label, required, children }: { label: string; required?: boolea
   )
 }
 
-export function StoreSignupForm() {
+export function StoreSignupForm({ phone, email }: { phone?: string | null; email?: string | null }) {
   const boundAction = submitContactForm.bind(null, 'storeSignup')
   const [state, formAction, pending] = useActionState(boundAction, initialState)
   const searchParams = useSearchParams()
@@ -45,7 +45,7 @@ export function StoreSignupForm() {
       setFields((prev) => ({ ...prev, [key]: e.target.value }))
 
   if (state.status === 'success') {
-    return <FormSuccess message={state.message} />
+    return <FormSuccess message={state.message} phone={phone} email={email} />
   }
 
   return (
