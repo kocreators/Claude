@@ -1,16 +1,37 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
+import type { Metadata } from 'next'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { getCachedPayload } from '@/lib/getCachedPayload'
 import { Container } from '@/components/Container'
 
 type Args = { params: Promise<{ slug: string }> }
 
-export default async function BlogPostPage({ params }: Args) {
-  const { slug } = await params
+async function getPost(slug: string) {
   const payload = await getCachedPayload()
   const result = await payload.find({ collection: 'posts', where: { slug: { equals: slug } }, limit: 1 })
-  const post = result.docs[0]
+  return result.docs[0]
+}
+
+export async function generateMetadata({ params }: Args): Promise<Metadata> {
+  const { slug } = await params
+  const post = await getPost(slug)
+  if (!post) return {}
+
+  return {
+    title: post.title,
+    description: post.excerpt || undefined,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt || undefined,
+      images: typeof post.coverImage === 'object' && post.coverImage?.url ? [{ url: post.coverImage.url }] : undefined,
+    },
+  }
+}
+
+export default async function BlogPostPage({ params }: Args) {
+  const { slug } = await params
+  const post = await getPost(slug)
   if (!post) notFound()
 
   return (
@@ -27,7 +48,7 @@ export default async function BlogPostPage({ params }: Args) {
             />
           </div>
         )}
-        {post.content && <RichText data={post.content} className="prose prose-headings:font-display prose-headings:uppercase max-w-none" />}
+        {post.content && <RichText data={post.content} className="prose prose-headings:font-extrabold prose-headings:uppercase max-w-none" />}
       </Container>
     </article>
   )

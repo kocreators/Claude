@@ -12,8 +12,16 @@
   - brand-dark (#00614F) hover/active state for green elements
 
   No card shadows, no gradients, no rounded corners on structural elements.
-  Buttons are flat, sharp-edged, uppercase mono-labeled — the accent color
-  and photography carry the design, not chrome.
+  Buttons are flat, sharp-edged, uppercase — the accent color and
+  photography carry the design, not chrome.
+
+  Typography system — single family (Inter), hierarchy from weight/size/tracking:
+  - Display (hero headline): Black 900, clamp fluid size, 0.90 leading, -0.04em tracking
+  - H1: Black 900, uppercase, leading-[0.95], -0.03em tracking
+  - H2/H3/H4: ExtraBold 800, uppercase, leading-[1.05], -0.03em tracking
+  - Body: Regular 400 (Medium 500 for supporting/emphasis copy)
+  - Eyebrow / small labels: Bold 700, 12-13px, 0.06em tracking
+  - Nav / buttons: Bold 700, 0.03em tracking, uppercase
 */
 
 @layer base {
@@ -21,10 +29,17 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-canvas-light text-ink font-body antialiased;
+    @apply bg-canvas-light text-ink font-sans text-[16px] font-normal leading-[1.6] antialiased md:text-[17px];
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  h1, h2, h3, h4 {
-    @apply font-display uppercase tracking-tight;
+  h1 {
+    @apply font-black uppercase leading-[0.95] tracking-headlineTight;
+  }
+  h2,
+  h3,
+  h4 {
+    @apply font-extrabold uppercase leading-[1.05] tracking-headlineTight;
   }
   :focus-visible {
     outline: 2px solid theme('colors.brand.DEFAULT');
@@ -33,23 +48,74 @@
 }
 
 @layer components {
+  /* Hero / major statement headline — fluid across breakpoints */
+  .text-display {
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    font-size: clamp(2.625rem, 12vw, 4rem);
+  }
+  @media (min-width: 768px) {
+    .text-display {
+      font-size: clamp(4rem, 6vw, 5.75rem);
+    }
+  }
+
   .eyebrow {
-    @apply font-mono text-xs uppercase tracking-widest2 text-brand;
+    @apply inline-block font-bold text-[20px] uppercase leading-tight tracking-eyebrowWide text-brand;
+  }
+
+  .nav-link {
+    @apply font-bold text-[14px] uppercase tracking-navLabel;
+  }
+
+  .label {
+    @apply font-bold text-[11px] uppercase tracking-eyebrowWide;
   }
 
   .btn-primary {
-    @apply inline-flex items-center gap-2 bg-brand text-canvas-light font-mono text-xs uppercase tracking-widest2 px-7 py-4 transition-colors hover:bg-brand-dark;
+    @apply inline-flex items-center gap-2 bg-brand text-canvas-light font-bold text-[14px] uppercase tracking-navLabel px-6 py-4 transition-colors hover:bg-brand-dark;
   }
 
   .btn-outline {
-    @apply inline-flex items-center gap-2 border border-ink text-ink font-mono text-xs uppercase tracking-widest2 px-7 py-4 transition-colors hover:bg-ink hover:text-canvas-light;
+    @apply inline-flex items-center gap-2 border border-ink text-ink font-bold text-[14px] uppercase tracking-navLabel px-6 py-4 transition-colors hover:bg-ink hover:text-canvas-light;
   }
 
   .btn-outline-light {
-    @apply inline-flex items-center gap-2 border border-canvas-light text-canvas-light font-mono text-xs uppercase tracking-widest2 px-7 py-4 transition-colors hover:bg-canvas-light hover:text-ink;
+    @apply inline-flex items-center gap-2 border border-canvas-light text-canvas-light font-bold text-[14px] uppercase tracking-navLabel px-6 py-4 transition-colors hover:bg-canvas-light hover:text-ink;
+  }
+
+  .btn-glass {
+    @apply inline-flex items-center gap-2 border border-white/40 bg-white/15 text-white font-bold text-[14px] uppercase tracking-navLabel px-6 py-4 backdrop-blur-sm transition-colors hover:bg-white/25;
   }
 
   .btn-text {
-    @apply inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest2 text-ink border-b border-transparent transition-colors hover:border-brand hover:text-brand;
+    @apply inline-flex items-center gap-2 font-bold text-[14px] uppercase tracking-navLabel text-ink border-b border-transparent transition-colors hover:border-brand hover:text-brand;
+  }
+
+  /* No @tailwindcss/typography plugin is installed, so these rules are the
+     only source of spacing for RichText (Lexical) output — without them
+     headings and paragraphs render back-to-back with no gap. */
+  .prose :where(h1, h2) {
+    @apply mb-6 mt-10 text-3xl leading-[1.05] first:mt-0 md:text-4xl;
+  }
+  .prose :where(h3, h4) {
+    @apply mb-4 mt-8 text-xl first:mt-0;
+  }
+  .prose :where(p, ul, ol) {
+    @apply mb-4 text-ink/70 last:mb-0;
+  }
+  .prose :where(ul, ol) {
+    @apply pl-5;
+  }
+  .prose :where(ul) {
+    @apply list-disc;
+  }
+  .prose :where(ol) {
+    @apply list-decimal;
+  }
+  .prose a {
+    @apply underline underline-offset-2 hover:text-brand;
   }
 }

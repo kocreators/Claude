@@ -10,6 +10,9 @@ import { ContactFormBlockComponent } from '@/blocks/ContactForm/Component'
 import { PortfolioGridBlock } from '@/blocks/PortfolioGrid/Component'
 import { CompanyStoresBlock } from '@/blocks/CompanyStores/Component'
 import { PromoSpotlightBlock } from '@/blocks/PromoSpotlight/Component'
+import { IconFeaturesBlock } from '@/blocks/IconFeatures/Component'
+import { PricingTiersBlock } from '@/blocks/PricingTiers/Component'
+import { ImageBlockComponent } from '@/blocks/ImageBlock/Component'
 
 // Maps each Payload block slug (see src/collections/Pages.ts) to the React
 // component that renders it. Add new block types here as you add configs.
@@ -26,6 +29,9 @@ const blockComponents: Record<string, (props: { block: any }) => any> = {
   portfolioGrid: PortfolioGridBlock,
   companyStores: CompanyStoresBlock,
   promoSpotlight: PromoSpotlightBlock,
+  iconFeatures: IconFeaturesBlock,
+  pricingTiers: PricingTiersBlock,
+  imageBlock: ImageBlockComponent,
 }
 
 export function RenderBlocks({ blocks }: { blocks: any[] }) {

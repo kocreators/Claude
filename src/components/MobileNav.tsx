@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { resolveLink } from '@/lib/resolveLink'
 
-export function MobileNav({ navItems, quoteCta, shopUrl }: { navItems: any[]; quoteCta: any; shopUrl?: string }) {
+export function MobileNav({ navItems, quoteCta }: { navItems: any[]; quoteCta: any }) {
   const [open, setOpen] = useState(false)
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
@@ -22,7 +22,7 @@ export function MobileNav({ navItems, quoteCta, shopUrl }: { navItems: any[]; qu
       </button>
 
       {open && (
-        <div className="fixed inset-x-0 top-20 bottom-0 z-40 overflow-y-auto bg-canvas-light">
+        <div className="fixed inset-x-0 top-20 z-40 h-[calc(100vh-5rem)] overflow-y-auto bg-canvas-light">
           <nav className="flex flex-col divide-y divide-ink/10 px-6">
             {navItems.map((item, i) => {
               const { href, label } = resolveLink(item.link)
@@ -35,7 +35,7 @@ export function MobileNav({ navItems, quoteCta, shopUrl }: { navItems: any[]; qu
                     <Link
                       href={href}
                       onClick={() => setOpen(false)}
-                      className="py-3 font-display text-2xl uppercase tracking-tight text-ink"
+                      className="py-3 text-2xl font-black uppercase tracking-tight text-ink"
                     >
                       {label}
                     </Link>
@@ -76,11 +76,6 @@ export function MobileNav({ navItems, quoteCta, shopUrl }: { navItems: any[]; qu
               <Link href={resolveLink(quoteCta).href} onClick={() => setOpen(false)} className="btn-primary w-full justify-center">
                 {resolveLink(quoteCta).label}
               </Link>
-            )}
-            {shopUrl && (
-              <a href={shopUrl} className="font-mono text-xs uppercase tracking-widest2 text-ink/70 text-center">
-                Shop
-              </a>
             )}
           </div>
         </div>

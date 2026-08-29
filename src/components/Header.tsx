@@ -8,12 +8,23 @@ import { MobileNav } from '@/components/MobileNav'
 
 export async function Header() {
   const payload = await getCachedPayload()
-  const [header, siteSettings] = await Promise.all([
+  const [header, siteSettings, servicesResult] = await Promise.all([
     payload.findGlobal({ slug: 'header' }),
     payload.findGlobal({ slug: 'site-settings' }),
+    payload.find({ collection: 'services', sort: 'order', limit: 12 }),
   ])
 
-  const navItems = (header?.navItems || []) as any[]
+  // The Services mega menu mirrors the homepage "Our Services" grid exactly
+  // (same collection, same order, same headline/subhead) instead of a
+  // separately hand-maintained list that can drift out of sync with it.
+  const servicesSubItems = servicesResult.docs.map((service: any) => ({
+    description: service.summary,
+    link: { type: 'custom', label: service.title, url: `/services/${service.slug}` },
+  }))
+
+  const navItems = (header?.navItems || []).map((item: any) =>
+    item.link?.url === '/services' ? { ...item, subItems: servicesSubItems } : item,
+  ) as any[]
 
   return (
     <header className="sticky top-0 z-50 border-b border-ink/10 bg-canvas-light/95 backdrop-blur">
@@ -30,7 +41,7 @@ export async function Header() {
               <div key={i} className="group relative">
                 <Link
                   href={href}
-                  className="font-mono text-xs uppercase tracking-widest2 text-ink transition-colors hover:text-brand"
+                  className="nav-link text-ink transition-colors hover:text-brand"
                 >
                   {label}
                 </Link>
@@ -55,7 +66,7 @@ export async function Header() {
                         const subLink = resolveLink(sub.link)
                         return (
                           <Link key={j} href={subLink.href} className="group/item block border-b border-ink/10 pb-6">
-                            <span className="font-display text-lg tracking-tight text-ink group-hover/item:text-brand">
+                            <span className="text-lg font-extrabold uppercase tracking-tight text-ink group-hover/item:text-brand">
                               {subLink.label}
                             </span>
                             {sub.description && (
@@ -73,20 +84,12 @@ export async function Header() {
         </nav>
 
         <div className="flex items-center gap-5">
-          {siteSettings?.externalShopUrl && (
-            <a
-              href={siteSettings.externalShopUrl}
-              className="hidden font-mono text-xs uppercase tracking-widest2 text-ink hover:text-brand md:inline"
-            >
-              Shop
-            </a>
-          )}
           {header?.quoteCta && (
             <span className="hidden md:inline-block">
               <CTAButton link={header.quoteCta} variant="primary" />
             </span>
           )}
-          <MobileNav navItems={navItems} quoteCta={header?.quoteCta} shopUrl={siteSettings?.externalShopUrl} />
+          <MobileNav navItems={navItems} quoteCta={header?.quoteCta} />
         </div>
       </Container>
     </header>

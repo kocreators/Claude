@@ -33,14 +33,14 @@ async function seed() {
   console.log('Seeding services...')
   const serviceDefs = [
     { title: 'Custom Apparel', slug: 'custom-apparel', summary: 'Premium branded apparel produced at scale.' },
+    { title: 'Promotional Products', slug: 'promotional-products', summary: 'Make your brand memorable with products people actually want.' },
+    { title: 'Print & Signage', slug: 'print-signage', summary: 'Business cards, brochures, banners, signage, event materials, and marketing collateral.' },
+    { title: 'Brand Stores', slug: 'company-stores', summary: 'Custom online stores for employees, customers, teams, and organizations.' },
+    { title: 'Fulfillment & Warehousing', slug: 'fulfillment-warehousing', summary: 'Storage, pick-and-pack, distribution, and direct-to-recipient shipping.' },
     { title: 'Screen Printing', slug: 'screen-printing', summary: 'High-quality custom printing for teams, companies, events, and organizations.' },
     { title: 'Embroidery', slug: 'embroidery', summary: 'Professional embroidery for polos, jackets, hats, bags, and more.' },
-    { title: 'Promotional Products', slug: 'promotional-products', summary: 'Hundreds of thousands of customizable products sourced for your brand.' },
-    { title: 'Print & Signage', slug: 'print-signage', summary: 'Business cards, brochures, banners, signage, event materials, and marketing collateral.' },
-    { title: 'Custom Headwear', slug: 'custom-headwear', summary: 'Embroidered and printed caps, beanies, and hats built to hold up.' },
-    { title: 'Company Stores', slug: 'company-stores', summary: 'Custom online stores for employees, customers, teams, and organizations.' },
-    { title: 'Fulfillment & Warehousing', slug: 'fulfillment-warehousing', summary: 'Storage, pick-and-pack, distribution, and direct-to-recipient shipping.' },
-    { title: 'Design Services', slug: 'design-services', summary: 'Creative support that turns an idea or existing logo into merchandise people actually want.' },
+    { title: 'Custom Headwear', slug: 'custom-headwear', summary: 'Custom hats built around your brand, style, and team.' },
+    { title: 'Gifting & Kitting', slug: 'gifting-kitting', summary: 'Premium packaging solutions for an elevated unboxing experience.' },
   ]
   const services: Array<{ id: string | number; slug: string; title: string; summary: string }> = []
   for (const [i, def] of serviceDefs.entries()) {
@@ -59,7 +59,7 @@ async function seed() {
 
   console.log('Seeding testimonials...')
   const testimonialDefs = [
-    { quote: 'Kocreators handled everything for our league relaunch — apparel, the fan store, fulfillment — one team, one deadline, done right.', authorName: 'Dana Ruiz', authorTitle: 'Board Member, Peoria Youth Soccer' },
+    { quote: 'Kocreators does a terrific job providing our work gear. Their customer service is top notch as well!', authorName: 'Holly Swisher', authorTitle: 'COO, Smooth Transitions' },
     { quote: 'We\u2019ve run our employee store through Kocreators for six years. Reordering is as easy as day one.', authorName: 'Marcus Webb', authorTitle: 'Director of Operations, Webb & Co.' },
     { quote: 'They turned a logo file and a deadline into a full product line in under two weeks.', authorName: 'Alicia Chen', authorTitle: 'Marketing Lead, Northline Events' },
   ]
@@ -71,12 +71,13 @@ async function seed() {
 
   console.log('Seeding sample projects...')
   const projectDefs = [
-    { clientName: 'Peoria United FC', slug: 'peoria-united-fc', projectType: 'Team Kits & Fan Merch', industry: 'Youth Sports', featured: true, overview: 'A full kit refresh and matchday fan merch line for a growing youth soccer club.', challenge: 'Peoria United needed a cohesive kit and fan-merch system across a dozen age groups on a tight preseason timeline.', solution: 'We built a single brand kit, standardized sizing across suppliers, and stood up a team store so parents could order directly.', services: ['custom-apparel', 'embroidery', 'company-stores'] },
-    { clientName: 'Northline Events', slug: 'northline-events', projectType: 'Event Merchandise', industry: 'Events & Entertainment', featured: true, overview: 'On-site merchandise and staff uniforms for a three-day regional festival.', challenge: 'Northline needed staff apparel, vendor signage, and attendee merch produced and shipped in under three weeks.', solution: 'Parallel production across print, embroidery, and signage let us hit a hard load-in date with zero delays.', services: ['screen-printing', 'print-signage', 'custom-headwear'] },
-    { clientName: 'Webb & Co.', slug: 'webb-and-co', projectType: 'Employee Kits', industry: 'Professional Services', featured: true, overview: 'An always-on employee store covering onboarding kits, seasonal apparel, and client gifting.', challenge: 'Webb & Co. wanted new hires outfitted on day one without manual ordering or inventory headaches.', solution: 'A branded company store with automated onboarding kits, managed inventory, and direct-to-employee shipping.', services: ['company-stores', 'fulfillment-warehousing', 'custom-apparel'] },
-    { clientName: 'Sunridge Schools', slug: 'sunridge-schools', projectType: 'Branded Packaging & Spirit Wear', industry: 'Education', featured: true, overview: 'District-wide spirit wear program spanning six campuses.', challenge: 'Six campuses, six mascots, one budget, one ordering window per semester.', solution: 'A shared design system with per-campus variants, sold through individual online stores per school.', services: ['custom-apparel', 'design-services', 'company-stores'] },
-    { clientName: 'Basecamp Outfitters', slug: 'basecamp-outfitters', projectType: 'Promotional Products', industry: 'Retail', featured: true, overview: 'A curated promotional product line for trade show giveaways and retail gifting.', challenge: 'Basecamp needed products that felt on-brand, not generic swag-table filler.', solution: 'We sourced and decorated a tight, considered product set instead of a sprawling generic catalog.', services: ['promotional-products', 'design-services'] },
-    { clientName: 'Ferro Manufacturing', slug: 'ferro-manufacturing', projectType: 'Safety & Workwear', industry: 'Industrial', featured: true, overview: 'Branded workwear and safety apparel across three plant locations.', challenge: 'Compliance-grade workwear that still looked like a cohesive, modern brand.', solution: 'Custom cut-and-sew and embroidery on compliant garments, fulfilled directly to each plant.', services: ['custom-apparel', 'embroidery', 'fulfillment-warehousing'] },
+    { clientName: 'Dr Pepper Keurig', slug: 'dr-pepper-keurig', projectType: 'Promotional Products', featured: true, services: [] },
+    { clientName: 'Grant Cardone Enterprises', slug: 'grant-cardone-enterprises', projectType: 'Custom Apparel + Promotional Products', featured: true, services: [] },
+    { clientName: "Pickleman's Cafe", slug: 'picklemans-cafe', projectType: 'Brand Stores & Fulfillment', featured: true, services: [] },
+    { clientName: 'Dog Training Elite', slug: 'dog-training-elite', projectType: 'Custom Apparel & Brand Stores', featured: true, services: [] },
+    { clientName: 'Family Nest Franchising', slug: 'family-nest-franchising', projectType: 'Print & Signage', featured: true, services: [] },
+    { clientName: 'East West Tournament', slug: 'east-west-tournament', projectType: 'Screen Printing', featured: true, services: [] },
+    { clientName: 'Cru', slug: 'cru', projectType: 'Custom Apparel & Promotional Products', featured: true, services: [] },
   ]
   for (const [i, def] of projectDefs.entries()) {
     const { services: svcSlugs, ...rest } = def
@@ -110,7 +111,7 @@ async function seed() {
         { link: { type: 'custom', label: 'About', url: '/about' } },
         { link: { type: 'custom', label: 'Resources', url: '/blog' } },
       ],
-      quoteCta: { type: 'custom', label: 'Start a Project', url: '/contact' },
+      quoteCta: { type: 'custom', label: 'Start a Project', url: '/start' },
     },
   })
 
@@ -168,19 +169,18 @@ async function seed() {
           blockType: 'hero',
           eyebrow: 'Custom Apparel · Promo · Print · Brand Stores',
           headline: 'Your Brand.\nMade Better.',
-          subhead: 'Custom apparel, promotional products, print, and branded stores—all handled by one team.',
-          cta: { type: 'custom', label: 'Start a Project', url: '/contact' },
+          subhead: 'Your one-stop partner for branded merchandise.',
+          cta: { type: 'custom', label: 'Start a Project', url: '/start' },
           secondaryCta: { type: 'custom', label: 'See Our Work', url: '/our-work' },
         },
         { blockType: 'trustedBrands', heading: 'Trusted by Teams That Care About Their Brand', logos: [] },
+        { blockType: 'servicesGrid', heading: 'Our Services', source: 'collection' },
         {
           blockType: 'portfolioGrid',
           heading: 'We Make Good Brands Look Even Better.',
           source: 'featured',
-          limit: 5,
-          cta: { type: 'custom', label: 'View All Work', url: '/our-work' },
+          limit: 7,
         },
-        { blockType: 'servicesGrid', heading: 'Everything Your Brand Needs. One Partner.', source: 'collection' },
         {
           blockType: 'processSteps',
           heading: 'We Keep It Simple.',
@@ -190,7 +190,7 @@ async function seed() {
             { title: 'Approve Your Project', description: 'Review digital proofs and approve everything before production.' },
             { title: 'We Make It Happen', description: 'We produce, quality-check, pack, and ship your order.' },
           ],
-          cta: { type: 'custom', label: 'Start Your Project', url: '/contact' },
+          cta: { type: 'custom', label: 'Start Your Project', url: '/start' },
         },
         {
           blockType: 'companyStores',
@@ -213,17 +213,17 @@ async function seed() {
         },
         {
           blockType: 'promoSpotlight',
-          heading: 'If You Can Put a Logo on It,\nWe Can Probably Make It.',
-          body: 'A small taste of what we source and decorate — drinkware, bags, tech, awards, packaging, and more.',
+          heading: 'If You Can Put a Logo on It,\nWe Can Make It.',
+          body: 'Put your logo to work — on drinkware, bags, tech, awards, packaging, and much more.',
           items: [
             { label: 'Drinkware' },
-            { label: 'Bags' },
-            { label: 'Tech' },
-            { label: 'Awards' },
-            { label: 'Event Merchandise' },
-            { label: 'Packaging' },
-            { label: 'Office Products' },
-            { label: 'Outdoor Products' },
+            { label: 'Bags & Totes' },
+            { label: 'Tech Accessories' },
+            { label: 'Office & Writing' },
+            { label: 'Outdoor & Recreation' },
+            { label: 'Food & Gifts' },
+            { label: 'Awards & Recognition' },
+            { label: 'Events & Giveaways' },
           ],
           cta: { type: 'custom', label: 'Find a Product', url: '/services/promotional-products' },
         },
@@ -233,7 +233,7 @@ async function seed() {
           heading: 'Ready to Make Something Great?',
           subhead: 'Tell us what you\u2019re working on. We\u2019ll help figure out the rest.',
           style: 'accent',
-          cta: { type: 'custom', label: 'Start a Project', url: '/contact' },
+          cta: { type: 'custom', label: 'Start a Project', url: '/start' },
         },
       ],
     },
@@ -267,7 +267,7 @@ async function seed() {
             { title: 'Approve Your Project', description: 'Review digital proofs and approve everything before production.' },
             { title: 'We Make It Happen', description: 'We produce, quality-check, pack, and ship your order.' },
           ],
-          cta: { type: 'custom', label: 'Start Your Project', url: '/contact' },
+          cta: { type: 'custom', label: 'Start Your Project', url: '/start' },
         },
       ],
     },
@@ -297,7 +297,7 @@ async function seed() {
             { label: 'Nationwide shipping' },
             { label: 'Reporting' },
           ],
-          cta: { type: 'custom', label: 'Start a Project', url: '/contact' },
+          cta: { type: 'custom', label: 'Start a Project', url: '/start' },
         },
       ],
     },
@@ -315,7 +315,7 @@ async function seed() {
           kicker: 'The Story',
           heading: 'One Team, Every Step',
           body: 'From first sketch to final shipment, we handle design, production, and fulfillment under one roof — so your brand looks consistent everywhere it shows up.',
-          cta: { type: 'custom', label: 'Start a Project', url: '/contact' },
+          cta: { type: 'custom', label: 'Start a Project', url: '/start' },
         },
         { blockType: 'trustedBrands', heading: 'Trusted by Teams That Care About Their Brand', logos: [] },
       ],
@@ -337,11 +337,23 @@ async function seed() {
   await payload.create({
     collection: 'pages',
     data: {
-      title: 'Contact',
-      slug: 'contact',
+      title: 'Start a Project',
+      slug: 'start',
       layout: [
         { blockType: 'hero', headline: 'Start a Project', subhead: 'Tell us what you\u2019re working on and we\u2019ll follow up within one business day.' },
         { blockType: 'contactForm', heading: 'Start a Project', formType: 'quote' },
+      ],
+    },
+  })
+
+  await payload.create({
+    collection: 'pages',
+    data: {
+      title: 'Contact',
+      slug: 'contact',
+      layout: [
+        { blockType: 'hero', headline: 'Contact Us', subhead: 'Questions about an order, a quote, or anything else? We\u2019re here to help.' },
+        { blockType: 'contactForm', heading: 'Get In Touch', subhead: 'Send us a message and a member of our team will follow up within one business day.', formType: 'contact' },
       ],
     },
   })

@@ -13,6 +13,7 @@ export const ContactFormBlock: Block = {
       options: [
         { label: 'Quote Request', value: 'quote' },
         { label: 'General Contact', value: 'contact' },
+        { label: 'Store Signup', value: 'storeSignup' },
       ],
     },
   ],

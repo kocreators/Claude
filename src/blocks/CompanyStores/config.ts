@@ -15,7 +15,9 @@ export const CompanyStores: Block = {
       maxRows: 12,
       fields: [{ name: 'label', type: 'text', required: true }],
     },
-    { name: 'storeMockupImage', type: 'upload', relationTo: 'media', admin: { description: 'Screenshot of an example branded store, shown in a browser/device frame' } },
+    { name: 'storeMockupImage', type: 'upload', relationTo: 'media', admin: { description: 'Desktop screenshot of an example branded store, shown in a computer monitor frame' } },
+    { name: 'storeMockupMobileImage', type: 'upload', relationTo: 'media', admin: { description: 'Mobile screenshot of the same store, shown in a phone frame overlapping the monitor' } },
     { ...linkField({ name: 'cta', label: '"Explore Brand Stores" button' }) },
+    { ...linkField({ name: 'previewCta', label: 'Button shown below the store mockup screenshots (e.g. "Preview a Live Brand Store")' }) },
   ],
 }

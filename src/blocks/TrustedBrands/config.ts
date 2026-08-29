@@ -6,6 +6,12 @@ export const TrustedBrands: Block = {
   fields: [
     { name: 'heading', type: 'text', defaultValue: 'Brands We Print For' },
     {
+      name: 'logoScale',
+      type: 'number',
+      defaultValue: 1,
+      admin: { description: 'Size multiplier for the logos in this section (1 = default size)' },
+    },
+    {
       name: 'logos',
       type: 'array',
       minRows: 1,

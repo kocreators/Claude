@@ -15,6 +15,7 @@ export const PromoSpotlight: Block = {
       fields: [
         { name: 'label', type: 'text', required: true, admin: { description: 'e.g. "Drinkware"' } },
         { name: 'image', type: 'upload', relationTo: 'media' },
+        { name: 'url', type: 'text', admin: { description: 'Optional — links the tile out to a catalog page in a new tab' } },
       ],
     },
     { ...linkField({ name: 'cta',  label: '"Find a Product" button' }) },

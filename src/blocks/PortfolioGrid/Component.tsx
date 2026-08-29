@@ -44,18 +44,20 @@ export async function PortfolioGridBlock({ block }: { block: any }) {
                   src={project.coverImage.url}
                   alt={project.coverImage.alt || project.clientName}
                   fill
-                  sizes={i === 0 ? '100vw' : '50vw'}
+                  sizes={i === 0 ? '100vw' : '(min-width: 768px) 50vw, 100vw'}
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/0 to-ink/0 opacity-70 transition-opacity duration-300 group-hover:opacity-90" />
 
-              <div className="absolute inset-x-0 bottom-0 translate-y-2 p-6 opacity-90 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 md:p-8">
-                <p className="font-mono text-xs uppercase tracking-widest2 text-brand">{project.projectType}</p>
-                <p className="mt-1 font-display text-xl uppercase tracking-tight text-canvas-light md:text-2xl">
-                  {project.clientName}
-                </p>
-                <span className="mt-3 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest2 text-canvas-light opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <div className="absolute inset-x-0 bottom-0 flex translate-y-2 flex-col items-start px-6 pb-1 pt-6 opacity-90 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 md:px-8 md:pb-2 md:pt-8">
+                <div className="-ml-5 inline-flex flex-col items-start gap-1 bg-[rgba(8,12,11,0.88)] px-5 py-4 backdrop-blur-[6px]">
+                  <p className="text-xl font-extrabold uppercase leading-[1.15] tracking-[-0.02em] text-canvas-light md:text-2xl">
+                    {project.clientName}
+                  </p>
+                  <p className="eyebrow tracking-[0.08em] text-[#2fa98e]">{project.projectType}</p>
+                </div>
+                <span className="label mt-3 inline-flex items-center gap-2 text-canvas-light opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   View Project →
                 </span>
               </div>

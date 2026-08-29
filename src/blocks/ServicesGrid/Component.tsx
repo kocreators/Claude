@@ -22,7 +22,7 @@ export async function ServicesGridBlock({ block }: { block: any }) {
           {services.map((service) => (
             <Link
               key={service.id}
-              href={`/services/${service.slug}`}
+              href={service.landingPageUrl || `/services/${service.slug}`}
               className="group relative flex aspect-[3/4] flex-col justify-end overflow-hidden bg-ink"
             >
               {typeof service.heroImage === 'object' && service.heroImage?.url ? (
@@ -39,13 +39,13 @@ export async function ServicesGridBlock({ block }: { block: any }) {
               <div className="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/20 to-transparent" />
 
               <div className="relative p-5 md:p-6">
-                <span className="block font-display text-xl uppercase leading-tight tracking-tight text-canvas-light md:text-2xl">
+                <span className="block text-xl font-extrabold uppercase leading-[1.15] tracking-[-0.02em] text-canvas-light md:text-2xl">
                   {service.title}
                 </span>
                 {service.summary && (
                   <span className="mt-2 block max-w-[22ch] text-sm text-canvas-light/70">{service.summary}</span>
                 )}
-                <span className="mt-3 inline-block font-mono text-xs uppercase tracking-widest2 text-brand opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <span className="eyebrow mt-3 inline-block opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   Learn more →
                 </span>
               </div>

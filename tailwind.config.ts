@@ -20,12 +20,13 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ['var(--font-anton)', 'sans-serif'],
-        body: ['var(--font-inter)', 'sans-serif'],
-        mono: ['var(--font-plex-mono)', 'monospace'],
+        sans: ['var(--font-inter)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {
-        widest2: '0.2em',
+        heroTight: '-0.04em', // hero/major display headline only
+        headlineTight: '-0.03em', // h1/h2/h3/h4 general headline tier
+        navLabel: '0.03em', // nav links and buttons
+        eyebrowWide: '0.06em', // eyebrow/category + small labels
       },
       borderRadius: {
         tag: '2px',

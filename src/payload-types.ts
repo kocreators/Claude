@@ -74,6 +74,7 @@ export interface Config {
     testimonials: Testimonial;
     media: Media;
     'form-submissions': FormSubmission;
+    'logo-uploads': LogoUpload;
     users: User;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -88,6 +89,7 @@ export interface Config {
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
+    'logo-uploads': LogoUploadsSelect<false> | LogoUploadsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -218,6 +220,10 @@ export interface Page {
           }
         | {
             heading?: string | null;
+            /**
+             * Size multiplier for the logos in this section (1 = default size)
+             */
+            logoScale?: number | null;
             logos?:
               | {
                   name: string;
@@ -317,10 +323,37 @@ export interface Page {
                 }[]
               | null;
             /**
-             * Screenshot of an example branded store, shown in a browser/device frame
+             * Desktop screenshot of an example branded store, shown in a computer monitor frame
              */
             storeMockupImage?: (number | null) | Media;
+            /**
+             * Mobile screenshot of the same store, shown in a phone frame overlapping the monitor
+             */
+            storeMockupMobileImage?: (number | null) | Media;
             cta?: {
+              type?: ('internal' | 'custom') | null;
+              label?: string | null;
+              internal?:
+                | ({
+                    relationTo: 'pages';
+                    value: number | Page;
+                  } | null)
+                | ({
+                    relationTo: 'services';
+                    value: number | Service;
+                  } | null)
+                | ({
+                    relationTo: 'posts';
+                    value: number | Post;
+                  } | null)
+                | ({
+                    relationTo: 'projects';
+                    value: number | Project;
+                  } | null);
+              url?: string | null;
+              newTab?: boolean | null;
+            };
+            previewCta?: {
               type?: ('internal' | 'custom') | null;
               label?: string | null;
               internal?:
@@ -357,6 +390,10 @@ export interface Page {
                    */
                   label: string;
                   image?: (number | null) | Media;
+                  /**
+                   * Optional — links the tile out to a catalog page in a new tab
+                   */
+                  url?: string | null;
                   id?: string | null;
                 }[]
               | null;
@@ -465,6 +502,10 @@ export interface Page {
             blockType: 'ctaBanner';
           }
         | {
+            /**
+             * Optional small green label shown above the content, e.g. "Our Clients"
+             */
+            eyebrow?: string | null;
             content: {
               root: {
                 type: string;
@@ -488,10 +529,71 @@ export interface Page {
         | {
             heading?: string | null;
             subhead?: string | null;
-            formType?: ('quote' | 'contact') | null;
+            formType?: ('quote' | 'contact' | 'storeSignup') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'contactForm';
+          }
+        | {
+            items?:
+              | {
+                  icon?: (number | null) | Media;
+                  label: string;
+                  description?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'iconFeatures';
+          }
+        | {
+            heading?: string | null;
+            tiers?:
+              | {
+                  name: string;
+                  description?: string | null;
+                  /**
+                   * e.g. "Free" or "$249"
+                   */
+                  priceLabel: string;
+                  cta?: {
+                    type?: ('internal' | 'custom') | null;
+                    label?: string | null;
+                    internal?:
+                      | ({
+                          relationTo: 'pages';
+                          value: number | Page;
+                        } | null)
+                      | ({
+                          relationTo: 'services';
+                          value: number | Service;
+                        } | null)
+                      | ({
+                          relationTo: 'posts';
+                          value: number | Post;
+                        } | null)
+                      | ({
+                          relationTo: 'projects';
+                          value: number | Project;
+                        } | null);
+                    url?: string | null;
+                    newTab?: boolean | null;
+                  };
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pricingTiers';
+          }
+        | {
+            image: number | Media;
+            fit?: ('cover' | 'contain') | null;
+            width?: ('narrow' | 'full') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'imageBlock';
           }
       )[]
     | null;
@@ -558,7 +660,42 @@ export interface Service {
    * Short line shown on grid cards
    */
   summary?: string | null;
+  /**
+   * SEO — leave blank to fall back to title/summary/heroImage
+   */
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (number | null) | Media;
+  };
+  /**
+   * Optional — sends the "Our Services" grid tile to a dedicated landing page instead of /services/[slug]
+   */
+  landingPageUrl?: string | null;
   heroImage?: (number | null) | Media;
+  heroCta?: {
+    type?: ('internal' | 'custom') | null;
+    label?: string | null;
+    internal?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'services';
+          value: number | Service;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null)
+      | ({
+          relationTo: 'projects';
+          value: number | Project;
+        } | null);
+    url?: string | null;
+    newTab?: boolean | null;
+  };
   body?: {
     root: {
       type: string;
@@ -574,12 +711,184 @@ export interface Service {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Key benefits/features shown on the service landing page
+   */
+  features?:
+    | {
+        label: string;
+        description?: string | null;
+        /**
+         * Optional small icon shown above the label
+         */
+        icon?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Product types this service covers (e.g. T-Shirts, Fleece, Jackets)
+   */
+  productCategories?:
+    | {
+        name: string;
+        description?: string | null;
+        image?: (number | null) | Media;
+        /**
+         * Optional — links the tile out to a catalog page in a new tab
+         */
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * "How it works" steps specific to this service
+   */
+  processSteps?:
+    | {
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   gallery?:
     | {
         image: number | Media;
         id?: string | null;
       }[]
     | null;
+  /**
+   * Optional wide banner image shown below the "How It Works" section
+   */
+  secondaryImage?: (number | null) | Media;
+  secondaryImageCta?: {
+    type?: ('internal' | 'custom') | null;
+    label?: string | null;
+    internal?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'services';
+          value: number | Service;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null)
+      | ({
+          relationTo: 'projects';
+          value: number | Project;
+        } | null);
+    url?: string | null;
+    newTab?: boolean | null;
+  };
+  /**
+   * Show the secondary banner image above "How It Works" instead of below it
+   */
+  secondaryImageBeforeSteps?: boolean | null;
+  /**
+   * Brand/product logos associated with this service
+   */
+  partnerBrands?:
+    | {
+        name: string;
+        logo?: (number | null) | Media;
+        /**
+         * Optional — links the logo out to a catalog/product page in a new tab
+         */
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Optional image-tile catalog section, e.g. "View Our Full Catalog"
+   */
+  catalogHeading?: string | null;
+  /**
+   * Category tiles for the catalog section above
+   */
+  catalogItems?:
+    | {
+        label: string;
+        image?: (number | null) | Media;
+        /**
+         * Optional — links the tile out to a catalog page in a new tab
+         */
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * FAQ section — leave faqItems empty to hide this section entirely
+   */
+  faqEyebrow?: string | null;
+  /**
+   * Supports line breaks, e.g. "Screen Printing\nquestions, answered"
+   */
+  faqHeading?: string | null;
+  /**
+   * e.g. "Don't see your question?"
+   */
+  faqNote?: string | null;
+  faqNoteLink?: {
+    type?: ('internal' | 'custom') | null;
+    label?: string | null;
+    internal?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'services';
+          value: number | Service;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null)
+      | ({
+          relationTo: 'projects';
+          value: number | Project;
+        } | null);
+    url?: string | null;
+    newTab?: boolean | null;
+  };
+  /**
+   * Accordion questions and answers
+   */
+  faqItems?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  ctaHeading?: string | null;
+  ctaSubhead?: string | null;
+  cta?: {
+    type?: ('internal' | 'custom') | null;
+    label?: string | null;
+    internal?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'services';
+          value: number | Service;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null)
+      | ({
+          relationTo: 'projects';
+          value: number | Project;
+        } | null);
+    url?: string | null;
+    newTab?: boolean | null;
+  };
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -632,6 +941,14 @@ export interface Project {
    */
   projectType: string;
   industry?: string | null;
+  /**
+   * SEO — leave blank to fall back to clientName/overview/coverImage
+   */
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (number | null) | Media;
+  };
   servicesProvided?: (number | Service)[] | null;
   coverImage?: (number | null) | Media;
   gallery?:
@@ -640,9 +957,48 @@ export interface Project {
         id?: string | null;
       }[]
     | null;
+  /**
+   * "The Project" section headline, e.g. "Custom Stadium Cups for Dr Pepper"
+   */
+  projectHeading?: string | null;
+  /**
+   * "The Project" section body
+   */
   overview?: string | null;
+  /**
+   * Legacy field, no longer rendered — kept temporarily during template migration
+   */
   challenge?: string | null;
+  /**
+   * Legacy field, no longer rendered — kept temporarily during template migration
+   */
   solution?: string | null;
+  /**
+   * "What We Did" section — one card per step/scope item
+   */
+  whatWeDidItems?:
+    | {
+        title: string;
+        description: string;
+        /**
+         * Optional supporting photo shown with this item
+         */
+        image?: (number | null) | Media;
+        /**
+         * Optional — shows a monitor + phone device mockup instead of a plain photo (pair with mobileMockupImage)
+         */
+        desktopMockupImage?: (number | null) | Media;
+        mobileMockupImage?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * "The Result" section headline, e.g. "One Partner. Start to Finish."
+   */
+  resultHeading?: string | null;
+  /**
+   * "The Result" section body
+   */
   resultsBody?: {
     root: {
       type: string;
@@ -658,6 +1014,10 @@ export interface Project {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Optional square supporting image shown below "The Result" section
+   */
+  closingImage?: (number | null) | Media;
   testimonial?: (number | null) | Testimonial;
   relatedProjects?: (number | Project)[] | null;
   updatedAt: string;
@@ -686,14 +1046,43 @@ export interface Testimonial {
  */
 export interface FormSubmission {
   id: number;
-  formType: 'quote' | 'contact';
+  formType: 'quote' | 'contact' | 'storeSignup';
   name: string;
+  firstName?: string | null;
+  lastName?: string | null;
   email: string;
   phone?: string | null;
   /**
    * Team, school, or business name
    */
   organization?: string | null;
+  /**
+   * Store signups: business name
+   */
+  businessName?: string | null;
+  storePlatform?: ('basic' | 'pro') | null;
+  /**
+   * Quote requests: product(s) interested in
+   */
+  productInterest?: string | null;
+  productColor?: string | null;
+  /**
+   * Estimated quantity
+   */
+  quantity?: string | null;
+  inHandsDate?: string | null;
+  /**
+   * Logo files uploaded with a quote request
+   */
+  logos?:
+    | {
+        file: number | LogoUpload;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Project details / anything else
+   */
   message?: string | null;
   /**
    * Where to send them, e.g. existing WooCommerce shop link
@@ -701,6 +1090,24 @@ export interface FormSubmission {
   shopUrl?: string | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "logo-uploads".
+ */
+export interface LogoUpload {
+  id: number;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -754,6 +1161,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'form-submissions';
         value: number | FormSubmission;
+      } | null)
+    | ({
+        relationTo: 'logo-uploads';
+        value: number | LogoUpload;
       } | null)
     | ({
         relationTo: 'users';
@@ -851,6 +1262,7 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               heading?: T;
+              logoScale?: T;
               logos?:
                 | T
                 | {
@@ -926,7 +1338,17 @@ export interface PagesSelect<T extends boolean = true> {
                     id?: T;
                   };
               storeMockupImage?: T;
+              storeMockupMobileImage?: T;
               cta?:
+                | T
+                | {
+                    type?: T;
+                    label?: T;
+                    internal?: T;
+                    url?: T;
+                    newTab?: T;
+                  };
+              previewCta?:
                 | T
                 | {
                     type?: T;
@@ -948,6 +1370,7 @@ export interface PagesSelect<T extends boolean = true> {
                 | {
                     label?: T;
                     image?: T;
+                    url?: T;
                     id?: T;
                   };
               cta?:
@@ -1011,6 +1434,7 @@ export interface PagesSelect<T extends boolean = true> {
         richText?:
           | T
           | {
+              eyebrow?: T;
               content?: T;
               width?: T;
               id?: T;
@@ -1022,6 +1446,53 @@ export interface PagesSelect<T extends boolean = true> {
               heading?: T;
               subhead?: T;
               formType?: T;
+              id?: T;
+              blockName?: T;
+            };
+        iconFeatures?:
+          | T
+          | {
+              items?:
+                | T
+                | {
+                    icon?: T;
+                    label?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        pricingTiers?:
+          | T
+          | {
+              heading?: T;
+              tiers?:
+                | T
+                | {
+                    name?: T;
+                    description?: T;
+                    priceLabel?: T;
+                    cta?:
+                      | T
+                      | {
+                          type?: T;
+                          label?: T;
+                          internal?: T;
+                          url?: T;
+                          newTab?: T;
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        imageBlock?:
+          | T
+          | {
+              image?: T;
+              fit?: T;
+              width?: T;
               id?: T;
               blockName?: T;
             };
@@ -1039,13 +1510,112 @@ export interface ServicesSelect<T extends boolean = true> {
   slug?: T;
   order?: T;
   summary?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  landingPageUrl?: T;
   heroImage?: T;
+  heroCta?:
+    | T
+    | {
+        type?: T;
+        label?: T;
+        internal?: T;
+        url?: T;
+        newTab?: T;
+      };
   body?: T;
+  features?:
+    | T
+    | {
+        label?: T;
+        description?: T;
+        icon?: T;
+        id?: T;
+      };
+  productCategories?:
+    | T
+    | {
+        name?: T;
+        description?: T;
+        image?: T;
+        url?: T;
+        id?: T;
+      };
+  processSteps?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
   gallery?:
     | T
     | {
         image?: T;
         id?: T;
+      };
+  secondaryImage?: T;
+  secondaryImageCta?:
+    | T
+    | {
+        type?: T;
+        label?: T;
+        internal?: T;
+        url?: T;
+        newTab?: T;
+      };
+  secondaryImageBeforeSteps?: T;
+  partnerBrands?:
+    | T
+    | {
+        name?: T;
+        logo?: T;
+        url?: T;
+        id?: T;
+      };
+  catalogHeading?: T;
+  catalogItems?:
+    | T
+    | {
+        label?: T;
+        image?: T;
+        url?: T;
+        id?: T;
+      };
+  faqEyebrow?: T;
+  faqHeading?: T;
+  faqNote?: T;
+  faqNoteLink?:
+    | T
+    | {
+        type?: T;
+        label?: T;
+        internal?: T;
+        url?: T;
+        newTab?: T;
+      };
+  faqItems?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  ctaHeading?: T;
+  ctaSubhead?: T;
+  cta?:
+    | T
+    | {
+        type?: T;
+        label?: T;
+        internal?: T;
+        url?: T;
+        newTab?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -1062,6 +1632,13 @@ export interface ProjectsSelect<T extends boolean = true> {
   order?: T;
   projectType?: T;
   industry?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   servicesProvided?: T;
   coverImage?: T;
   gallery?:
@@ -1070,10 +1647,23 @@ export interface ProjectsSelect<T extends boolean = true> {
         image?: T;
         id?: T;
       };
+  projectHeading?: T;
   overview?: T;
   challenge?: T;
   solution?: T;
+  whatWeDidItems?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+        desktopMockupImage?: T;
+        mobileMockupImage?: T;
+        id?: T;
+      };
+  resultHeading?: T;
   resultsBody?: T;
+  closingImage?: T;
   testimonial?: T;
   relatedProjects?: T;
   updatedAt?: T;
@@ -1167,13 +1757,44 @@ export interface MediaSelect<T extends boolean = true> {
 export interface FormSubmissionsSelect<T extends boolean = true> {
   formType?: T;
   name?: T;
+  firstName?: T;
+  lastName?: T;
   email?: T;
   phone?: T;
   organization?: T;
+  businessName?: T;
+  storePlatform?: T;
+  productInterest?: T;
+  productColor?: T;
+  quantity?: T;
+  inHandsDate?: T;
+  logos?:
+    | T
+    | {
+        file?: T;
+        id?: T;
+      };
   message?: T;
   shopUrl?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "logo-uploads_select".
+ */
+export interface LogoUploadsSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

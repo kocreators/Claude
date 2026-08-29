@@ -5,7 +5,7 @@ import { getCachedPayload } from '@/lib/getCachedPayload'
 import { Container } from '@/components/Container'
 
 export const metadata: Metadata = {
-  title: 'Our Work — Kocreators',
+  title: 'Our Work',
   description: 'Real custom apparel, embroidery, promotional products, branded stores, and merchandise Kocreators has produced for teams, schools, and businesses.',
 }
 
@@ -45,9 +45,13 @@ export default async function OurWorkPage() {
                     />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/0 to-ink/0 opacity-70 transition-opacity duration-300 group-hover:opacity-90" />
-                  <div className="absolute inset-x-0 bottom-0 p-6">
-                    <p className="font-mono text-xs uppercase tracking-widest2 text-brand">{project.projectType}</p>
-                    <p className="mt-1 font-display text-xl uppercase tracking-tight text-canvas-light">{project.clientName}</p>
+                  <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6">
+                    <div className="inline-flex max-w-full flex-col items-start gap-1 bg-[rgba(8,12,11,0.88)] px-4 py-3 backdrop-blur-[6px]">
+                      <p className="eyebrow text-xs leading-tight text-[#2fa98e] sm:text-sm">{project.projectType}</p>
+                      <p className="text-base font-extrabold uppercase leading-tight tracking-tight text-canvas-light sm:text-xl">
+                        {project.clientName}
+                      </p>
+                    </div>
                   </div>
                 </Link>
               ))}

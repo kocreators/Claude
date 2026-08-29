@@ -11,6 +11,9 @@ import { ContactFormBlock } from '@/blocks/ContactForm/config'
 import { PortfolioGrid } from '@/blocks/PortfolioGrid/config'
 import { CompanyStores } from '@/blocks/CompanyStores/config'
 import { PromoSpotlight } from '@/blocks/PromoSpotlight/config'
+import { IconFeaturesBlock } from '@/blocks/IconFeatures/config'
+import { PricingTiersBlock } from '@/blocks/PricingTiers/config'
+import { ImageBlock } from '@/blocks/ImageBlock/config'
 
 // One flexible collection powers every marketing page (Home, Work, Process,
 // About, Trusted Brands, Support, Contact...) via a drag-and-drop block
@@ -56,6 +59,9 @@ export const Pages: CollectionConfig = {
         CTABanner,
         RichTextBlock,
         ContactFormBlock,
+        IconFeaturesBlock,
+        PricingTiersBlock,
+        ImageBlock,
       ],
     },
   ],

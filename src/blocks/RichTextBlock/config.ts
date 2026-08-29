@@ -5,6 +5,7 @@ export const RichTextBlock: Block = {
   slug: 'richText',
   labels: { singular: 'Rich Text', plural: 'Rich Text Blocks' },
   fields: [
+    { name: 'eyebrow', type: 'text', admin: { description: 'Optional small green label shown above the content, e.g. "Our Clients"' } },
     {
       name: 'content',
       type: 'richText',

@@ -17,8 +17,14 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
   const { slug } = await params
   const page = await getPage(slug)
   return {
-    title: page?.meta?.title || page?.title || 'Kocreators',
+    title: page?.meta?.title || page?.title || undefined,
     description: page?.meta?.description || undefined,
+    openGraph: {
+      title: page?.meta?.title || page?.title || undefined,
+      description: page?.meta?.description || undefined,
+      images:
+        typeof page?.meta?.image === 'object' && page?.meta?.image?.url ? [{ url: page.meta.image.url }] : undefined,
+    },
   }
 }
 

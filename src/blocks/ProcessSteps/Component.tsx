@@ -13,13 +13,19 @@ export function ProcessStepsBlock({ block }: { block: any }) {
             <div key={i}>
               <div className="relative mb-5 aspect-[4/5] overflow-hidden bg-ink/5">
                 {typeof step.image === 'object' && step.image?.url && (
-                  <Image src={step.image.url} alt={step.image.alt || step.title} fill sizes="25vw" className="object-cover" />
+                  <Image
+                    src={step.image.url}
+                    alt={step.image.alt || step.title}
+                    fill
+                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                    className="object-cover"
+                  />
                 )}
-                <span className="absolute left-3 top-3 flex h-9 w-9 items-center justify-center bg-brand font-mono text-sm text-canvas-light">
+                <span className="absolute left-3 top-3 flex h-9 w-9 items-center justify-center bg-brand text-sm font-bold text-canvas-light">
                   {String(i + 1).padStart(2, '0')}
                 </span>
               </div>
-              <h3 className="mb-2 font-display text-xl">{step.title}</h3>
+              <h3 className="mb-2 text-xl">{step.title}</h3>
               <p className="text-sm text-ink/70">{step.description}</p>
             </div>
           ))}

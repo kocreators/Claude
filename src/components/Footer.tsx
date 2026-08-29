@@ -21,11 +21,11 @@ export async function Footer() {
           <Logo light />
           <p className="max-w-xs text-sm text-canvas-light/65">{footer?.tagline}</p>
           {siteSettings?.email && (
-            <a href={`mailto:${siteSettings.email}`} className="block font-mono text-sm text-canvas-light hover:text-brand">
+            <a href={`mailto:${siteSettings.email}`} className="block text-sm font-medium text-canvas-light hover:text-brand">
               {siteSettings.email}
             </a>
           )}
-          {siteSettings?.phone && <p className="font-mono text-sm text-canvas-light/90">{siteSettings.phone}</p>}
+          {siteSettings?.phone && <p className="text-sm font-medium text-canvas-light/90">{siteSettings.phone}</p>}
           {siteSettings?.hours && <p className="text-xs text-canvas-light/50">{siteSettings.hours}</p>}
         </div>
 
@@ -54,7 +54,7 @@ export async function Footer() {
         </p>
         <div className="flex gap-5">
           {social.map((s: any, i: number) => (
-            <a key={i} href={s.url} className="text-xs uppercase tracking-widest2 text-canvas-light/50 hover:text-brand">
+            <a key={i} href={s.url} className="label text-canvas-light/50 hover:text-brand">
               {s.platform}
             </a>
           ))}

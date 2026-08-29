@@ -3,9 +3,10 @@ import { Container } from '@/components/Container'
 
 export function RichTextBlockComponent({ block }: { block: any }) {
   return (
-    <section className="py-16">
+    <section className="py-8">
       <Container className={block.width === 'narrow' ? 'max-w-3xl' : ''}>
-        <RichText data={block.content} className="prose prose-headings:font-display prose-headings:uppercase max-w-none" />
+        {block.eyebrow && <p className="eyebrow mb-4 text-brand">{block.eyebrow}</p>}
+        <RichText data={block.content} className="prose max-w-none" />
       </Container>
     </section>
   )

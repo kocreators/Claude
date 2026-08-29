@@ -13,6 +13,7 @@ import { Projects } from './collections/Projects'
 import { Testimonials } from './collections/Testimonials'
 import { Posts } from './collections/Posts'
 import { FormSubmissions } from './collections/FormSubmissions'
+import { LogoUploads } from './collections/LogoUploads'
 import { Header } from './globals/Header'
 import { Footer } from './globals/Footer'
 import { SiteSettings } from './globals/SiteSettings'
@@ -28,7 +29,7 @@ export default buildConfig({
     },
   },
   editor: lexicalEditor({}),
-  collections: [Pages, Services, Projects, Posts, Testimonials, Media, FormSubmissions, Users],
+  collections: [Pages, Services, Projects, Posts, Testimonials, Media, FormSubmissions, LogoUploads, Users],
   globals: [Header, Footer, SiteSettings],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -50,7 +51,7 @@ export default buildConfig({
     // uploads fall back to the Media collection's local `staticDir`.
     vercelBlobStorage({
       enabled: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
-      collections: { media: true },
+      collections: { media: true, 'logo-uploads': true },
       token: process.env.BLOB_READ_WRITE_TOKEN || '',
     }),
   ],
