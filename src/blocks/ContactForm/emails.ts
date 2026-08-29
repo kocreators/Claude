@@ -73,7 +73,7 @@ export function internalNotificationEmail(data: SubmissionData) {
     <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">${rows}</table>
     ${
       data.message
-        ? `<div style="border-left:3px solid ${BRAND_GREEN};padding-left:12px;font-size:14px;color:#333;white-space:pre-wrap;">${escapeHtml(data.message)}</div>`
+        ? `<p style="margin:0 0 6px;font-size:13px;color:#666;">Additional details</p><div style="border-left:3px solid ${BRAND_GREEN};padding-left:12px;font-size:14px;color:#333;white-space:pre-wrap;">${escapeHtml(data.message)}</div>`
         : ''
     }
   `
@@ -106,7 +106,7 @@ export function customerConfirmationEmail(data: SubmissionData) {
     ${rows ? `<p style="font-size:14px;color:#333;line-height:1.6;">Here's a copy of what you sent us:</p><table style="width:100%;border-collapse:collapse;margin-bottom:20px;">${rows}</table>` : ''}
     ${
       data.message
-        ? `<div style="border-left:3px solid ${BRAND_GREEN};padding-left:12px;font-size:14px;color:#333;white-space:pre-wrap;">${escapeHtml(data.message)}</div>`
+        ? `<p style="margin:0 0 6px;font-size:13px;color:#666;">Additional details</p><div style="border-left:3px solid ${BRAND_GREEN};padding-left:12px;font-size:14px;color:#333;white-space:pre-wrap;">${escapeHtml(data.message)}</div>`
         : ''
     }
   `
