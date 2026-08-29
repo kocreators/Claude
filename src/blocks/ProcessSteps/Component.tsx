@@ -5,7 +5,7 @@ import { CTAButton } from '@/components/CTAButton'
 export function ProcessStepsBlock({ block }: { block: any }) {
   const steps = block.steps || []
   return (
-    <section className="bg-canvas py-24 md:py-32">
+    <section className="bg-canvas py-10 md:py-32">
       <Container>
         <h2 className="mb-14 max-w-2xl text-4xl leading-[0.95] md:text-6xl">{block.heading}</h2>
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">

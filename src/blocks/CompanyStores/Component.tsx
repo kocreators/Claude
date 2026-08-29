@@ -9,7 +9,7 @@ export function CompanyStoresBlock({ block }: { block: any }) {
   const mobileImg = block.storeMockupMobileImage
 
   return (
-    <section className="bg-ink py-24 text-canvas-light md:py-32">
+    <section className="bg-ink py-10 text-canvas-light md:py-32">
       <Container className="grid items-center gap-16 md:grid-cols-2">
         <div>
           {block.kicker && <p className="eyebrow mb-5">{block.kicker}</p>}

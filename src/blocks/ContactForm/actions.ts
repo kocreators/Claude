@@ -99,30 +99,34 @@ export async function submitContactForm(
 
     // Email sending is best-effort — the submission is already safely
     // stored above, so a mail failure shouldn't block the success message.
+    // The internal and customer emails are sent independently: earlier this
+    // was one try/catch, so an attachment issue on the internal email (only
+    // quote submissions carry logo attachments) silently skipped the
+    // customer confirmation too.
     if (process.env.RESEND_API_KEY) {
+      const resend = new Resend(process.env.RESEND_API_KEY)
+      const fromAddress = process.env.RESEND_FROM_EMAIL || 'Kocreators <onboarding@resend.dev>'
+
+      const submission = {
+        formType,
+        name,
+        firstName,
+        lastName,
+        email,
+        phone,
+        organization,
+        productInterest,
+        productColor,
+        quantity,
+        inHandsDate,
+        businessName,
+        storePlatform,
+        message,
+      }
+
       try {
-        const resend = new Resend(process.env.RESEND_API_KEY)
         const siteSettings = await payload.findGlobal({ slug: 'site-settings' })
-        const fromAddress = process.env.RESEND_FROM_EMAIL || 'Kocreators <onboarding@resend.dev>'
         const internalTo = siteSettings?.email
-
-        const submission = {
-          formType,
-          name,
-          firstName,
-          lastName,
-          email,
-          phone,
-          organization,
-          productInterest,
-          productColor,
-          quantity,
-          inHandsDate,
-          businessName,
-          storePlatform,
-          message,
-        }
-
         if (internalTo) {
           await resend.emails.send({
             from: fromAddress,
@@ -138,7 +142,11 @@ export async function submitContactForm(
             attachments: attachments.length ? attachments : undefined,
           })
         }
+      } catch (emailErr) {
+        console.error(`Internal notification email failed (formType=${formType}):`, emailErr)
+      }
 
+      try {
         await resend.emails.send({
           from: fromAddress,
           to: email,
@@ -146,7 +154,7 @@ export async function submitContactForm(
           html: customerConfirmationEmail(submission),
         })
       } catch (emailErr) {
-        console.error('Email sending failed:', emailErr)
+        console.error(`Customer confirmation email failed (formType=${formType}):`, emailErr)
       }
     }
 

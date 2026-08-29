@@ -15,7 +15,7 @@ export async function ServicesGridBlock({ block }: { block: any }) {
   }
 
   return (
-    <section className="bg-canvas-light py-24 md:py-32">
+    <section className="bg-canvas-light py-10 md:py-32">
       <Container>
         <h2 className="mb-14 max-w-3xl text-4xl leading-[0.95] md:text-6xl">{block.heading}</h2>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-6">

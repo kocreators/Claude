@@ -3,6 +3,7 @@
 import { useActionState } from 'react'
 import { submitContactForm, type ContactFormState } from './actions'
 import { Turnstile } from '@/components/Turnstile'
+import { FormSuccess } from './FormSuccess'
 
 const initialState: ContactFormState = { status: 'idle' }
 
@@ -11,7 +12,7 @@ export function SimpleContactForm() {
   const [state, formAction, pending] = useActionState(boundAction, initialState)
 
   if (state.status === 'success') {
-    return <p className="border-l-2 border-brand pl-4 text-ink/80">{state.message}</p>
+    return <FormSuccess message={state.message} />
   }
 
   return (

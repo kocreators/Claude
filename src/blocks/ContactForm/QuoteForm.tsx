@@ -3,6 +3,7 @@
 import { useActionState, useState } from 'react'
 import { Turnstile } from '@/components/Turnstile'
 import { submitContactForm, type ContactFormState } from './actions'
+import { FormSuccess } from './FormSuccess'
 
 const initialState: ContactFormState = { status: 'idle' }
 
@@ -54,7 +55,7 @@ export function QuoteForm() {
     setFields((prev) => ({ ...prev, [key]: e.target.value }))
 
   if (state.status === 'success') {
-    return <p className="border-l-2 border-brand pl-4 text-ink/80">{state.message}</p>
+    return <FormSuccess message={state.message} />
   }
 
   return (

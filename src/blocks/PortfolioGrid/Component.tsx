@@ -26,7 +26,7 @@ export async function PortfolioGridBlock({ block }: { block: any }) {
   if (!projects.length) return null
 
   return (
-    <section className="bg-canvas-light py-24 md:py-32">
+    <section className="bg-canvas-light py-10 md:py-32">
       <Container>
         <div className="mb-14 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <h2 className="max-w-2xl text-4xl leading-[0.95] md:text-6xl">{block.heading}</h2>

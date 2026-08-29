@@ -46,7 +46,7 @@ export function HeroBlock({ block }: { block: any }) {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-[92vh] items-end overflow-hidden bg-ink text-canvas-light"
+      className="relative flex min-h-[60vh] items-end overflow-hidden bg-ink text-canvas-light md:min-h-[92vh]"
     >
       <Image
         src={bgSrc}
@@ -65,7 +65,7 @@ export function HeroBlock({ block }: { block: any }) {
         </div>
       )}
 
-      <Container className="relative pb-20 pt-40 md:pb-24">
+      <Container className="relative pb-10 pt-16 md:pb-24 md:pt-40">
         {block.eyebrow && (
           <p className="eyebrow mb-5 bg-[rgba(8,12,11,0.45)] px-3 py-1.5 tracking-[0.08em] text-[#2fa98e] backdrop-blur-[6px]">
             {block.eyebrow}

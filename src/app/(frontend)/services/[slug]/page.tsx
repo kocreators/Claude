@@ -94,11 +94,11 @@ export default async function ServiceDetailPage({ params }: Args) {
 
   return (
     <article>
-      <section className="relative flex h-[60vh] items-end bg-ink text-canvas-light">
+      <section className="relative flex h-[45vh] items-end bg-ink text-canvas-light md:h-[60vh]">
         {typeof service.heroImage === 'object' && service.heroImage?.url && (
           <Image src={service.heroImage.url} alt={service.heroImage.alt || service.title} fill className="object-cover opacity-50" />
         )}
-        <Container className="relative pb-16">
+        <Container className="relative pb-8 md:pb-16">
           <p className="eyebrow mb-5 inline-block bg-[rgba(8,12,11,0.45)] px-3 py-1.5 tracking-[0.08em] text-[#2fa98e] backdrop-blur-[6px]">
             Service
           </p>

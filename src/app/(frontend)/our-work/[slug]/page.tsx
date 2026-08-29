@@ -52,7 +52,7 @@ export default async function CaseStudyPage({ params }: Args) {
 
   return (
     <article>
-      <section className="relative flex min-h-[70vh] items-end bg-ink text-canvas-light">
+      <section className="relative flex min-h-[50vh] items-end bg-ink text-canvas-light md:min-h-[70vh]">
         {typeof project.coverImage === 'object' && project.coverImage?.url && (
           <Image
             src={project.coverImage.url}
@@ -65,7 +65,7 @@ export default async function CaseStudyPage({ params }: Args) {
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
-        <Container className="relative pb-16 pt-40">
+        <Container className="relative pb-8 pt-20 md:pb-16 md:pt-40">
           <p className="eyebrow mb-4">{project.industry || 'Case Study'}</p>
           <h1 className="max-w-3xl text-5xl leading-[0.95] md:text-7xl">{project.clientName}</h1>
           <p className="label mt-4 text-canvas-light/70">{project.projectType}</p>

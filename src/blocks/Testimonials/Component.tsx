@@ -6,7 +6,7 @@ export function TestimonialsBlockComponent({ block }: { block: any }) {
   if (!items.length) return null
 
   return (
-    <section className="bg-ink py-24 text-canvas-light md:py-32">
+    <section className="bg-ink py-10 text-canvas-light md:py-32">
       <Container>
         {block.heading && <p className="eyebrow mb-14">{block.heading}</p>}
         <div className="divide-y divide-canvas-light/10">
