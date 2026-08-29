@@ -19,6 +19,9 @@ async function verifyTurnstile(token: string) {
     body: new URLSearchParams({ secret, response: token }),
   })
   const data = await res.json()
+  if (!data.success) {
+    console.error('Turnstile verification failed:', data['error-codes'])
+  }
   return Boolean(data.success)
 }
 
@@ -30,7 +33,11 @@ export async function submitContactForm(
   try {
     const verified = await verifyTurnstile(String(formData.get('cf-turnstile-response') || ''))
     if (!verified) {
-      return { status: 'error', message: 'Captcha verification failed. Please try again.' }
+      return {
+        status: 'error',
+        message:
+          'Please complete the verification checkbox above, then submit again. If it expired while you were filling out the form, it will refresh automatically.',
+      }
     }
 
     const usesFirstLast = formType === 'quote' || formType === 'storeSignup'
