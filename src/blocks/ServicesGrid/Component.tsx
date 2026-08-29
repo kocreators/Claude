@@ -18,7 +18,7 @@ export async function ServicesGridBlock({ block }: { block: any }) {
     <section className="bg-canvas-light py-24 md:py-32">
       <Container>
         <h2 className="mb-14 max-w-3xl text-4xl leading-[0.95] md:text-6xl">{block.heading}</h2>
-        <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-6">
           {services.map((service) => (
             <Link
               key={service.id}
@@ -38,8 +38,8 @@ export async function ServicesGridBlock({ block }: { block: any }) {
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/20 to-transparent" />
 
-              <div className="relative p-5 md:p-6">
-                <span className="block text-xl font-extrabold uppercase leading-[1.15] tracking-[-0.02em] text-canvas-light md:text-2xl">
+              <div className="relative p-4 md:p-6">
+                <span className="block break-words text-base font-extrabold uppercase leading-[1.15] tracking-[-0.02em] text-canvas-light md:text-lg lg:text-2xl">
                   {service.title}
                 </span>
                 {service.summary && (

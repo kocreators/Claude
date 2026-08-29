@@ -51,11 +51,13 @@ export async function PortfolioGridBlock({ block }: { block: any }) {
               <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/0 to-ink/0 opacity-70 transition-opacity duration-300 group-hover:opacity-90" />
 
               <div className="absolute inset-x-0 bottom-0 flex translate-y-2 flex-col items-start px-6 pb-1 pt-6 opacity-90 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 md:px-8 md:pb-2 md:pt-8">
-                <div className="-ml-5 inline-flex flex-col items-start gap-1 bg-[rgba(8,12,11,0.88)] px-5 py-4 backdrop-blur-[6px]">
+                <div className="-ml-5 inline-flex max-w-[85%] flex-col items-start gap-1 bg-[rgba(8,12,11,0.88)] px-5 py-3 backdrop-blur-[6px] md:max-w-[70%]">
                   <p className="text-xl font-extrabold uppercase leading-[1.15] tracking-[-0.02em] text-canvas-light md:text-2xl">
                     {project.clientName}
                   </p>
-                  <p className="eyebrow tracking-[0.08em] text-[#2fa98e]">{project.projectType}</p>
+                  <p className="eyebrow text-[10px] leading-[1.3] tracking-[0.08em] text-[#2fa98e] md:text-xs">
+                    {project.projectType}
+                  </p>
                 </div>
                 <span className="label mt-3 inline-flex items-center gap-2 text-canvas-light opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   View Project →
