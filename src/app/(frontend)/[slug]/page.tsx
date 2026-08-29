@@ -5,6 +5,8 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 
 // Generic renderer for every top-level marketing page created in the admin:
 // /services, /work, /process, /about, /trusted-brands, /support, /contact...
+export const revalidate = 60
+
 type Args = { params: Promise<{ slug: string }> }
 
 async function getPage(slug: string) {

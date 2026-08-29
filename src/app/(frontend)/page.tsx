@@ -4,6 +4,7 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 
 // Homepage is just the Pages doc with slug "home" — same rendering path as
 // every other page, so editors build it entirely from the block layout.
+export const revalidate = 60
 export default async function HomePage() {
   const payload = await getCachedPayload()
   const result = await payload.find({ collection: 'pages', where: { slug: { equals: 'home' } }, limit: 1 })

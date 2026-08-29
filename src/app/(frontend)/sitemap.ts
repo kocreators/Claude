@@ -1,6 +1,8 @@
 import type { MetadataRoute } from 'next'
 import { getCachedPayload } from '@/lib/getCachedPayload'
 
+export const revalidate = 3600
+
 const baseUrl = 'https://kocreators.com'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

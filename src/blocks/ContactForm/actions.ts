@@ -152,6 +152,7 @@ export async function submitContactForm(
           to: email,
           subject: 'We got your request — Kocreators',
           html: customerConfirmationEmail(submission),
+          attachments: attachments.length ? attachments : undefined,
         })
       } catch (emailErr) {
         console.error(`Customer confirmation email failed (formType=${formType}):`, emailErr)

@@ -4,6 +4,8 @@ import type { Metadata } from 'next'
 import { getCachedPayload } from '@/lib/getCachedPayload'
 import { Container } from '@/components/Container'
 
+export const revalidate = 60
+
 export const metadata: Metadata = {
   title: 'Our Work',
   description: 'Real custom apparel, embroidery, promotional products, branded stores, and merchandise Kocreators has produced for teams, schools, and businesses.',

@@ -10,6 +10,8 @@ import { CTABannerBlock } from '@/blocks/CTABanner/Component'
 import { PromoSpotlightBlock } from '@/blocks/PromoSpotlight/Component'
 import { FaqAccordion } from '@/components/FaqAccordion'
 
+export const revalidate = 60
+
 type Args = { params: Promise<{ slug: string }> }
 
 async function getService(slug: string) {

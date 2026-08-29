@@ -5,6 +5,8 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import { getCachedPayload } from '@/lib/getCachedPayload'
 import { Container } from '@/components/Container'
 
+export const revalidate = 60
+
 type Args = { params: Promise<{ slug: string }> }
 
 async function getPost(slug: string) {
