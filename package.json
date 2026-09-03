@@ -10,7 +10,8 @@
     "generate:types": "payload generate:types",
     "generate:importmap": "payload generate:importmap",
     "payload": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload",
-    "seed": "tsx src/lib/seed.ts"
+    "seed": "tsx src/lib/seed.ts",
+    "webhook:test": "node scripts/send-test-webhook.mjs"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.35.0",
