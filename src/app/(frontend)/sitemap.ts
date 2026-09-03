@@ -5,20 +5,38 @@ export const revalidate = 3600
 
 const baseUrl = 'https://kocreators.com'
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const payload = await getCachedPayload()
+const STATIC_ROUTES = ['', '/services', '/our-work', '/blog']
 
-  const [pages, services, projects, posts] = await Promise.all([
-    payload.find({ collection: 'pages', limit: 200, depth: 0 }),
-    payload.find({ collection: 'services', limit: 200, depth: 0 }),
-    payload.find({ collection: 'projects', limit: 200, depth: 0 }),
-    payload.find({ collection: 'posts', limit: 200, depth: 0 }),
-  ])
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const staticEntries = STATIC_ROUTES.map((route) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: new Date(),
+  }))
+
+  // This route is prerendered during `next build`, so anything thrown here
+  // fails the whole build. Preview deployments don't get PAYLOAD_SECRET or
+  // DATABASE_URI (they're Production-only), which made every preview build
+  // die with "missing secret key" long before the page could render. A
+  // sitemap missing its CMS-driven URLs for one build is a far smaller
+  // problem than no deployment at all, so fall back to the static routes
+  // and let the hourly revalidate pick up the full list once the
+  // environment can actually reach Payload.
+  let pages, services, projects, posts
+  try {
+    const payload = await getCachedPayload()
+    ;[pages, services, projects, posts] = await Promise.all([
+      payload.find({ collection: 'pages', limit: 200, depth: 0 }),
+      payload.find({ collection: 'services', limit: 200, depth: 0 }),
+      payload.find({ collection: 'projects', limit: 200, depth: 0 }),
+      payload.find({ collection: 'posts', limit: 200, depth: 0 }),
+    ])
+  } catch (err) {
+    console.error('Sitemap: could not load content from Payload, serving static routes only:', err)
+    return staticEntries
+  }
 
   const pageSlugs = new Set(pages.docs.map((p: any) => p.slug))
-  const staticRoutes = ['', '/services', '/our-work', '/blog'].filter(
-    (route) => !pageSlugs.has(route.replace(/^\//, '')),
-  )
+  const staticRoutes = STATIC_ROUTES.filter((route) => !pageSlugs.has(route.replace(/^\//, '')))
 
   const pageRoutes = pages.docs
     .filter((p: any) => p.slug !== 'home')
