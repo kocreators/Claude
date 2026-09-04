@@ -66,6 +66,19 @@ const EVENT_TEMPLATES: Record<string, { heading: string; subject: (event: Webhoo
     heading: 'New customer',
     subject: (e) => `New customer${subjectSuffix(e, ['name', 'email'])}`,
   },
+  // Smartlead deliveries (see ./smartlead.ts) reuse this renderer.
+  'smartlead.email_reply': {
+    heading: 'New reply from a Smartlead campaign',
+    subject: (e) => `Reply${subjectSuffix(e, ['From (lead)', 'Lead email'])}`,
+  },
+  'smartlead.email_bounce': {
+    heading: 'Smartlead email bounced',
+    subject: (e) => `Bounce${subjectSuffix(e, ['Lead email', 'Campaign'])}`,
+  },
+  'smartlead.lead_category_updated': {
+    heading: 'Smartlead lead category updated',
+    subject: (e) => `Lead category updated${subjectSuffix(e, ['Lead email', 'Campaign'])}`,
+  },
   'quote.requested': {
     heading: 'New quote request',
     subject: (e) => `New quote request${subjectSuffix(e, ['name', 'organization', 'email'])}`,
