@@ -1,7 +1,6 @@
 # Kocreators — Payload CMS + Next.js
 
-A content-managed marketing site for Kocreators, structured after
-[andersonsupply.com](https://andersonsupply.com): a services grid, a "how it
+A content-managed marketing site for Kocreators. Includes a services grid, a "how it
 works" process section, testimonials, a story/vision block, trusted brands,
 and quote/contact forms — all editable from a Payload admin panel.
 
