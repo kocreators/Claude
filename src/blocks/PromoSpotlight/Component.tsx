@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { Container } from '@/components/Container'
 import { CTAButton } from '@/components/CTAButton'
+import { CatalogBanner } from '@/components/CatalogBanner'
 
 export function PromoSpotlightBlock({ block }: { block: any }) {
   const headlineLines = String(block.heading || '').split('\n').filter(Boolean)
@@ -57,6 +58,8 @@ export function PromoSpotlightBlock({ block }: { block: any }) {
             <CTAButton link={block.cta} variant="outline" />
           </div>
         )}
+
+        <CatalogBanner />
       </Container>
     </section>
   )
