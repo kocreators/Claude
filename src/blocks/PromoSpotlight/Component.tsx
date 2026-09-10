@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import { Container } from '@/components/Container'
-import { CTAButton } from '@/components/CTAButton'
 import { CatalogBanner } from '@/components/CatalogBanner'
 
 export function PromoSpotlightBlock({ block }: { block: any }) {
@@ -10,13 +9,22 @@ export function PromoSpotlightBlock({ block }: { block: any }) {
   return (
     <section className="bg-canvas py-6 md:py-8">
       <Container>
+        {/* The heading keeps its authored line breaks (one <span> per "\n").
+            In a 2-of-3 column that only holds at xl and up — at 768-1150px the
+            first line overflowed and wrapped, turning two lines into three. So
+            below xl the heading takes the full width and its size flexes with
+            the viewport; at xl it returns to the two-column layout at 48px. */}
         <div className="mb-14 grid gap-8 md:grid-cols-3 md:items-end">
-          <h2 className="text-4xl leading-[0.95] md:col-span-2 md:text-5xl">
+          <h2 className="text-4xl leading-[0.95] md:col-span-3 md:text-[clamp(2.5rem,5.9vw,3rem)] xl:col-span-2 xl:text-5xl">
             {headlineLines.length > 0
               ? headlineLines.map((line: string, i: number) => <span key={i} className="block">{line}</span>)
               : block.heading}
           </h2>
-          {block.body && <p className="max-w-md text-ink/70 md:justify-self-end md:text-right">{block.body}</p>}
+          {block.body && (
+            <p className="max-w-md text-ink/70 md:col-span-3 md:justify-self-end md:text-right xl:col-span-1">
+              {block.body}
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-5 md:grid-cols-4 md:gap-6">
@@ -52,12 +60,6 @@ export function PromoSpotlightBlock({ block }: { block: any }) {
             )
           })}
         </div>
-
-        {block.cta && (
-          <div className="mt-12">
-            <CTAButton link={block.cta} variant="outline" />
-          </div>
-        )}
 
         <CatalogBanner />
       </Container>
