@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { HubspotChat } from '@/components/HubspotChat'
+import { GoogleTagManager } from '@/components/GoogleTagManager'
 import './globals.css'
 
 const inter = Inter({
@@ -38,6 +39,7 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
   return (
     <html lang="en" className={inter.variable}>
       <body>
+        <GoogleTagManager />
         <Header />
         <main>{children}</main>
         <Footer />
