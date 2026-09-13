@@ -1,12 +1,18 @@
 'use client'
 
-import { useActionState, useState } from 'react'
+import { useActionState, useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Turnstile } from '@/components/Turnstile'
 import { submitContactForm, type ContactFormState } from './actions'
 import { FormSuccess } from './FormSuccess'
 
 const initialState: ContactFormState = { status: 'idle' }
+
+declare global {
+  interface Window {
+    dataLayer?: Record<string, unknown>[]
+  }
+}
 
 const inputClass =
   'w-full border border-ink/15 bg-canvas-light px-4 py-3 text-sm text-ink placeholder:text-ink/30 focus:border-brand focus:outline-none'
@@ -43,6 +49,32 @@ export function StoreSignupForm({ phone, email }: { phone?: string | null; email
     (key: keyof typeof fields) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
       setFields((prev) => ({ ...prev, [key]: e.target.value }))
+
+  // Tell GTM the signup actually completed.
+  //
+  // This form posts through a React server action, so a successful submit
+  // causes no page load and no URL change — there is nothing for a GTM
+  // pageview or history trigger to fire on. Without this push, a conversion
+  // would have to be tied to someone merely *opening* /store-signup, which
+  // counts everyone who looked at the form.
+  //
+  // `plan` is the value actually submitted, not the one in the ?plan= link:
+  // that link only preselects the dropdown, and the visitor is free to change
+  // it before submitting. `plan_landed` keeps the original link for comparison.
+  //
+  // In GTM: Custom Event trigger on `store_signup`, with Data Layer Variables
+  // for `plan` / `plan_landed` if you want them as event parameters.
+  const reported = useRef(false)
+  useEffect(() => {
+    if (state.status !== 'success' || reported.current) return
+    reported.current = true
+    window.dataLayer = window.dataLayer || []
+    window.dataLayer.push({
+      event: 'store_signup',
+      plan: fields.storePlatform,
+      plan_landed: initialPlan,
+    })
+  }, [state.status, fields.storePlatform, initialPlan])
 
   if (state.status === 'success') {
     return <FormSuccess message={state.message} phone={phone} email={email} />
