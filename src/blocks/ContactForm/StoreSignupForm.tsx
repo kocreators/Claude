@@ -5,14 +5,9 @@ import { useSearchParams } from 'next/navigation'
 import { Turnstile } from '@/components/Turnstile'
 import { submitContactForm, type ContactFormState } from './actions'
 import { FormSuccess } from './FormSuccess'
+import { SIGNUP_HANDOFF_KEY } from '@/app/(frontend)/store-signup/thank-you/SignupThankYouTracking'
 
 const initialState: ContactFormState = { status: 'idle' }
-
-declare global {
-  interface Window {
-    dataLayer?: Record<string, unknown>[]
-  }
-}
 
 const inputClass =
   'w-full border border-ink/15 bg-canvas-light px-4 py-3 text-sm text-ink placeholder:text-ink/30 focus:border-brand focus:outline-none'
@@ -50,32 +45,38 @@ export function StoreSignupForm({ phone, email }: { phone?: string | null; email
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
       setFields((prev) => ({ ...prev, [key]: e.target.value }))
 
-  // Tell GTM the signup actually completed.
+  // On success, hand off to the thank-you page.
   //
-  // This form posts through a React server action, so a successful submit
-  // causes no page load and no URL change — there is nothing for a GTM
-  // pageview or history trigger to fire on. Without this push, a conversion
-  // would have to be tied to someone merely *opening* /store-signup, which
-  // counts everyone who looked at the form.
+  // window.location.assign rather than router.push: a soft navigation changes
+  // the URL without a page load, which is exactly what analytics tools cannot
+  // see. A full load makes the confirmation a real page, and gives the
+  // conversion tag a normal page lifetime to fire in.
   //
-  // `plan` is the value actually submitted, not the one in the ?plan= link:
-  // that link only preselects the dropdown, and the visitor is free to change
-  // it before submitting. `plan_landed` keeps the original link for comparison.
-  //
-  // In GTM: Custom Event trigger on `store_signup`, with Data Layer Variables
-  // for `plan` / `plan_landed` if you want them as event parameters.
-  const reported = useRef(false)
+  // The plan travels in sessionStorage rather than only the query string, so
+  // that refreshing or sharing the thank-you URL does not report a second
+  // conversion — the marker is one-shot and the page clears it on read. The
+  // ?plan= is carried too, but only so the page can name the plan on screen.
+  const handedOff = useRef(false)
   useEffect(() => {
-    if (state.status !== 'success' || reported.current) return
-    reported.current = true
-    window.dataLayer = window.dataLayer || []
-    window.dataLayer.push({
-      event: 'store_signup',
-      plan: fields.storePlatform,
-      plan_landed: initialPlan,
-    })
+    if (state.status !== 'success' || handedOff.current) return
+    handedOff.current = true
+
+    const plan = fields.storePlatform
+    try {
+      sessionStorage.setItem(
+        SIGNUP_HANDOFF_KEY,
+        JSON.stringify({ plan, plan_landed: initialPlan }),
+      )
+    } catch {
+      // Storage blocked — still send them to the confirmation page; it simply
+      // will not report the conversion.
+    }
+
+    window.location.assign(`/store-signup/thank-you?plan=${encodeURIComponent(plan)}`)
   }, [state.status, fields.storePlatform, initialPlan])
 
+  // Shown for the moment between a successful submit and the redirect landing,
+  // and as the fallback if navigation is blocked.
   if (state.status === 'success') {
     return <FormSuccess message={state.message} phone={phone} email={email} />
   }
