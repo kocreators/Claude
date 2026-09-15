@@ -4,36 +4,36 @@ import config from '@payload-config'
 // Creates the /team-sports page.
 //
 // Run with:  npx tsx src/lib/createTeamSportsPage.ts
+//            npx tsx src/lib/createTeamSportsPage.ts --force   (replace an existing one)
 //
-// Mirrors the Brand Stores page block-for-block (hero, trusted brands, the
-// store walkthrough, feature list, pricing, testimonial, contact form) with
-// the copy rewritten for teams, clubs, schools and leagues.
+// Mirrors the Brand Stores page block-for-block (hero, brand logos, the store
+// walkthrough, feature list, pricing, testimonial, contact form) with the copy
+// rewritten for teams, clubs, schools and leagues.
 //
-// Safe to re-run: it checks for an existing `team-sports` page first and
-// stops rather than creating a duplicate. Pass --force to replace the layout
-// of the existing page instead.
-//
-// Media is reused by ID from the Brand Stores page — the store mockups (20,
-// 22) and the client logos. Swap those in the admin for sports-specific
-// artwork when you have it.
+// Safe to re-run: it stops if a `team-sports` page already exists, unless
+// --force is passed.
 
-const CLIENT_LOGOS: Array<{ name: string; logo: number }> = [
-  { name: 'Apple', logo: 104 },
-  { name: 'Marriott', logo: 105 },
-  { name: 'Hilton', logo: 106 },
-  { name: 'Holiday Inn', logo: 107 },
-  { name: 'Grant Cardone Enterprises', logo: 92 },
-  { name: 'Dr Pepper Keurig', logo: 93 },
-  { name: 'Avantor', logo: 94 },
-  { name: "Pickleman's Gourmet Cafe", logo: 102 },
-  { name: "Groucho's Deli", logo: 110 },
-  { name: 'Dog Training Elite', logo: 96 },
-  { name: 'LIVE Hydration Spa', logo: 97 },
-  { name: 'Stretch-n-Grow', logo: 98 },
-  { name: 'CCV', logo: 109 },
-  { name: 'Streamline Brands', logo: 100 },
-  { name: 'Snip-its', logo: 101 },
-  { name: 'CRU', logo: 103 },
+// The logo strip is the athletic slice of the brand wall on the Custom Apparel
+// service page, reusing the same media records by ID — nothing to re-upload.
+//
+// This replaces the "Clients Served" block from Brand Stores on purpose: a
+// coach or athletic director reading a page of corporate hospitality logos
+// concludes this is a corporate shop. Showing the brands you can actually get
+// answers the question they came with, and backs up the "Buy The Brands You
+// Love" claim further down the page, which is otherwise unsupported.
+const SPORTS_BRANDS: Array<{ name: string; logo: number }> = [
+  { name: 'Nike', logo: 43 },
+  { name: 'Champion', logo: 45 },
+  { name: 'Richardson', logo: 53 },
+  { name: 'The North Face', logo: 54 },
+  { name: 'TravisMathew', logo: 55 },
+  { name: 'Adidas', logo: 57 },
+  { name: 'Badger Sport', logo: 58 },
+  { name: 'Columbia', logo: 59 },
+  { name: 'Under Armour', logo: 63 },
+  { name: 'New Era', logo: 70 },
+  { name: 'Russell Athletic', logo: 67 },
+  { name: 'Holloway', logo: 61 },
 ]
 
 const layout: any[] = [
@@ -45,9 +45,11 @@ const layout: any[] = [
   },
   {
     blockType: 'trustedBrands',
-    heading: 'Clients Served',
-    logoScale: 1.75,
-    logos: CLIENT_LOGOS,
+    heading: 'Brands We Carry',
+    // scale 1 matches how these same logos render on the Custom Apparel page;
+    // the 1.75 used on Brand Stores was tuned for the bigger client wordmarks.
+    logoScale: 1,
+    logos: SPORTS_BRANDS,
   },
   {
     blockType: 'companyStores',
