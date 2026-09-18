@@ -17,9 +17,17 @@ export async function Header() {
   // The Services mega menu mirrors the homepage "Our Services" grid exactly
   // (same collection, same order, same headline/subhead) instead of a
   // separately hand-maintained list that can drift out of sync with it.
+  // landingPageUrl sends a service to a dedicated page instead of
+  // /services/[slug] — Brand Stores uses it to point at /brand-stores. The
+  // "Our Services" grid already honours it; the menu did not, so the same
+  // tile and the same menu entry led to two different pages.
   const servicesSubItems = servicesResult.docs.map((service: any) => ({
     description: service.summary,
-    link: { type: 'custom', label: service.title, url: `/services/${service.slug}` },
+    link: {
+      type: 'custom',
+      label: service.title,
+      url: service.landingPageUrl || `/services/${service.slug}`,
+    },
   }))
 
   const navItems = (header?.navItems || []).map((item: any) =>
