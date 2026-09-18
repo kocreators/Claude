@@ -25,8 +25,12 @@ async function verifyTurnstile(token: string) {
   return Boolean(data.success)
 }
 
+// Written into the message field of promo code requests so the submission
+// and the notification email both say which offer it was.
+export const PROMO_CODE_NOTE = 'Promo code request — Spend $100, get $20 off.'
+
 export async function submitContactForm(
-  formType: 'quote' | 'contact' | 'storeSignup',
+  formType: 'quote' | 'contact' | 'storeSignup' | 'promoCode',
   _prevState: ContactFormState,
   formData: FormData,
 ): Promise<ContactFormState> {
@@ -40,7 +44,8 @@ export async function submitContactForm(
       }
     }
 
-    const usesFirstLast = formType === 'quote' || formType === 'storeSignup'
+    const usesFirstLast =
+      formType === 'quote' || formType === 'storeSignup' || formType === 'promoCode'
     const firstName = String(formData.get('firstName') || '')
     const lastName = String(formData.get('lastName') || '')
     const name = usesFirstLast ? `${firstName} ${lastName}`.trim() : String(formData.get('name') || '')
@@ -60,7 +65,9 @@ export async function submitContactForm(
         ? !firstName || !lastName || !email || !phone
         : formType === 'storeSignup'
           ? !firstName || !lastName || !email || !businessName
-          : !name || !email
+          : formType === 'promoCode'
+            ? !firstName || !lastName || !email
+            : !name || !email
 
     if (missingRequired) {
       return { status: 'error', message: 'Please fill in the required fields.' }
@@ -83,10 +90,20 @@ export async function submitContactForm(
       logoMediaIds.push(upload.id)
     }
 
+    // 'promoCode' is not a value in the form-submissions enum (a Postgres
+    // enum via Payload's select field); adding one would need a schema
+    // migration against a database shared with another app. Store it as a
+    // contact submission and let the message say what it was.
+    const storedFormType = formType === 'promoCode' ? 'contact' : formType
+    const storedMessage =
+      formType === 'promoCode'
+        ? [PROMO_CODE_NOTE, message].filter(Boolean).join('\n\n')
+        : message
+
     await payload.create({
       collection: 'form-submissions',
       data: {
-        formType,
+        formType: storedFormType,
         name: name || email,
         firstName: firstName || undefined,
         lastName: lastName || undefined,
@@ -100,7 +117,7 @@ export async function submitContactForm(
         businessName: businessName || undefined,
         storePlatform: (storePlatform || undefined) as 'basic' | 'pro' | undefined,
         logos: logoMediaIds.map((id) => ({ file: id })),
-        message,
+        message: storedMessage,
       },
     })
 
@@ -115,7 +132,7 @@ export async function submitContactForm(
       const fromAddress = process.env.RESEND_FROM_EMAIL || 'Kocreators <onboarding@resend.dev>'
 
       const submission = {
-        formType,
+        formType: storedFormType,
         name,
         firstName,
         lastName,
@@ -128,7 +145,7 @@ export async function submitContactForm(
         inHandsDate,
         businessName,
         storePlatform,
-        message,
+        message: storedMessage,
       }
 
       try {
@@ -144,7 +161,9 @@ export async function submitContactForm(
                 ? `New project request — ${name || email}`
                 : formType === 'storeSignup'
                   ? `New store signup — ${businessName || name || email}`
-                  : `New contact form message — ${name || email}`,
+                  : formType === 'promoCode'
+                    ? `New promo code request — ${name || email}`
+                    : `New contact form message — ${name || email}`,
             html: internalNotificationEmail(submission),
             attachments: attachments.length ? attachments : undefined,
           })
