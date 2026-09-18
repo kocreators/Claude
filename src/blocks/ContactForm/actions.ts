@@ -27,7 +27,7 @@ async function verifyTurnstile(token: string) {
 
 // Written into the message field of promo code requests so the submission
 // and the notification email both say which offer it was.
-export const PROMO_CODE_NOTE = 'Promo code request — Spend $100, get $20 off.'
+const PROMO_CODE_NOTE = 'Promo code request — Spend $100, get $20 off.'
 
 export async function submitContactForm(
   formType: 'quote' | 'contact' | 'storeSignup' | 'promoCode',
