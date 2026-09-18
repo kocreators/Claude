@@ -4,6 +4,10 @@ import { Container } from '@/components/Container'
 import { getCachedPayload } from '@/lib/getCachedPayload'
 import { PromoCodeForm } from './PromoCodeForm'
 
+// The River Academy store specifically — not Site Settings' general shop URL,
+// since the code has to be attached to an account on this store.
+const REGISTER_URL = 'https://kocreators.shop/tra'
+
 // An unlisted campaign page: it is not in the header nav, and because it is a
 // static route rather than a Payload page it never enters the sitemap (which
 // enumerates the pages/services/projects/posts collections). noindex keeps it
@@ -31,13 +35,11 @@ const STEPS = [
 export default async function RiverAcademyPromoPage() {
   let phone: string | null = null
   let email: string | null = null
-  let shopUrl: string | null = null
   try {
     const payload = await getCachedPayload()
     const settings = (await payload.findGlobal({ slug: 'site-settings' })) as any
     phone = settings?.phone || null
     email = settings?.email || null
-    shopUrl = settings?.externalShopUrl || null
   } catch (err) {
     console.error('River Academy promo page: could not read site-settings:', err)
   }
@@ -63,28 +65,23 @@ export default async function RiverAcademyPromoPage() {
             </h1>
 
             <p className="mt-6 text-lg text-ink/70">
-              A thank-you for River Academy families. Request a promo code below and we&rsquo;ll send
-              one over for your next order.
+              A special thank you for River Academy families. Request a promo code below and
+              we&rsquo;ll send one over for your next order.
             </p>
 
             <p className="mt-6 border-l-2 border-brand bg-canvas-light px-5 py-4 text-sm text-ink/75">
               <span className="label mb-1 block text-ink">Register first</span>
               Promo codes are created for a specific account, so please register on the store before
-              requesting yours. Use the same email address in both places and we&rsquo;ll match them up.
-              {shopUrl && (
-                <>
-                  {' '}
-                  <a
-                    href={shopUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-medium text-brand underline underline-offset-2"
-                  >
-                    Register on the store
-                  </a>
-                  .
-                </>
-              )}
+              requesting yours. Use the same email address in both places and we&rsquo;ll match them up.{' '}
+              <a
+                href={REGISTER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-brand underline underline-offset-2"
+              >
+                Register on the store
+              </a>
+              .
             </p>
           </div>
         </Container>
