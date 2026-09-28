@@ -35,6 +35,11 @@ export async function submitContactForm(
   formData: FormData,
 ): Promise<ContactFormState> {
   try {
+    // Spam trap: a hidden field only bots fill in. Fake success so they don't adapt.
+    if (String(formData.get('website') || '')) {
+      return { status: 'success', message: 'Thanks!' }
+    }
+
     const verified = await verifyTurnstile(String(formData.get('cf-turnstile-response') || ''))
     if (!verified) {
       return {
@@ -59,6 +64,15 @@ export async function submitContactForm(
     const businessName = String(formData.get('businessName') || '')
     const storePlatform = String(formData.get('storePlatform') || '')
     const message = String(formData.get('message') || '')
+
+    // Reject obviously bad input (bots send gibberish and zeroed-out dates).
+    const cutoff = new Date(Date.now() - 2 * 86_400_000).toISOString().slice(0, 10)
+    if (inHandsDate && inHandsDate < cutoff) {
+      return { status: 'error', message: 'Please choose an in-hands date that is today or later.' }
+    }
+    if (formType === 'quote' && quantity && !/\d/.test(quantity)) {
+      return { status: 'error', message: 'Please enter your estimated quantity as a number, e.g. 500 or 500-750.' }
+    }
 
     const missingRequired =
       formType === 'quote'

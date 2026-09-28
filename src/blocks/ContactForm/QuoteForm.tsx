@@ -166,6 +166,15 @@ export function QuoteForm({ phone, email }: { phone?: string | null; email?: str
         />
       </Field>
 
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        style={{ position: "absolute", left: "-9999px" }}
+      />
+
       <Turnstile />
 
       {state.status === 'error' && <p className="text-sm text-red-600">{state.message}</p>}
